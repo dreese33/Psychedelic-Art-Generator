@@ -1,0 +1,638 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B250AA0228CD9AD00EA3606 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250A9F228CD9AD00EA3606 /* CircleView.swift */; };
+		8B250AA2228CDFC900EA3606 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250AA1228CDFC900EA3606 /* RectangleView.swift */; };
+		8BA03E8E228B1889000809B7 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA03E8D228B1889000809B7 /* Toolbar.swift */; };
+		8BCB702C228F3CF5005A98E2 /* ShapeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */; };
+		8BCB702E228F3F73005A98E2 /* AbstractShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */; };
+		8BD6FE72228B046F007166AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE71228B046F007166AD /* AppDelegate.swift */; };
+		8BD6FE74228B046F007166AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE73228B046F007166AD /* ViewController.swift */; };
+		8BD6FE77228B046F007166AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BD6FE75228B046F007166AD /* Main.storyboard */; };
+		8BD6FE7A228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE78228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld */; };
+		8BD6FE7C228B0470007166AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BD6FE7B228B0470007166AD /* Assets.xcassets */; };
+		8BD6FE7F228B0470007166AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */; };
+		8BD6FE8A228B0470007166AD /* Psychedelic_Art_GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE89228B0470007166AD /* Psychedelic_Art_GeneratorTests.swift */; };
+		8BD6FE95228B0470007166AD /* Psychedelic_Art_GeneratorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE94228B0470007166AD /* Psychedelic_Art_GeneratorUITests.swift */; };
+		8BD6FEA3228B1218007166AD /* ArtCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FEA2228B1218007166AD /* ArtCanvas.swift */; };
+		8BD8D422228B34E700628AA8 /* NewObjectConfigurationFromTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8BD6FE86228B0470007166AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BD6FE66228B046E007166AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BD6FE6D228B046E007166AD;
+			remoteInfo = "Psychedelic Art Generator";
+		};
+		8BD6FE91228B0470007166AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BD6FE66228B046E007166AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BD6FE6D228B046E007166AD;
+			remoteInfo = "Psychedelic Art Generator";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8B250A9F228CD9AD00EA3606 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		8B250AA1228CDFC900EA3606 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		8BA03E8D228B1889000809B7 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptions.swift; sourceTree = "<group>"; };
+		8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractShapeView.swift; sourceTree = "<group>"; };
+		8BD6FE6E228B046F007166AD /* Psychedelic Art Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Psychedelic Art Generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BD6FE71228B046F007166AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8BD6FE73228B046F007166AD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8BD6FE76228B046F007166AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BD6FE79228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Psychedelic_Art_Generator.xcdatamodel; sourceTree = "<group>"; };
+		8BD6FE7B228B0470007166AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8BD6FE7E228B0470007166AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BD6FE80228B0470007166AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8BD6FE85228B0470007166AD /* Psychedelic Art GeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Psychedelic Art GeneratorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BD6FE89228B0470007166AD /* Psychedelic_Art_GeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Psychedelic_Art_GeneratorTests.swift; sourceTree = "<group>"; };
+		8BD6FE8B228B0470007166AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8BD6FE90228B0470007166AD /* Psychedelic Art GeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Psychedelic Art GeneratorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BD6FE94228B0470007166AD /* Psychedelic_Art_GeneratorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Psychedelic_Art_GeneratorUITests.swift; sourceTree = "<group>"; };
+		8BD6FE96228B0470007166AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8BD6FEA2228B1218007166AD /* ArtCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtCanvas.swift; sourceTree = "<group>"; };
+		8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewObjectConfigurationFromTable.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8BD6FE6B228B046E007166AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE82228B0470007166AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE8D228B0470007166AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8BD6FE65228B046E007166AD = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE70228B046F007166AD /* Psychedelic Art Generator */,
+				8BD6FE88228B0470007166AD /* Psychedelic Art GeneratorTests */,
+				8BD6FE93228B0470007166AD /* Psychedelic Art GeneratorUITests */,
+				8BD6FE6F228B046F007166AD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8BD6FE6F228B046F007166AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE6E228B046F007166AD /* Psychedelic Art Generator.app */,
+				8BD6FE85228B0470007166AD /* Psychedelic Art GeneratorTests.xctest */,
+				8BD6FE90228B0470007166AD /* Psychedelic Art GeneratorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8BD6FE70228B046F007166AD /* Psychedelic Art Generator */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE71228B046F007166AD /* AppDelegate.swift */,
+				8BD6FE73228B046F007166AD /* ViewController.swift */,
+				8BD6FEA2228B1218007166AD /* ArtCanvas.swift */,
+				8B250A9F228CD9AD00EA3606 /* CircleView.swift */,
+				8B250AA1228CDFC900EA3606 /* RectangleView.swift */,
+				8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */,
+				8BA03E8D228B1889000809B7 /* Toolbar.swift */,
+				8BD6FE75228B046F007166AD /* Main.storyboard */,
+				8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */,
+				8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */,
+				8BD6FE7B228B0470007166AD /* Assets.xcassets */,
+				8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */,
+				8BD6FE80228B0470007166AD /* Info.plist */,
+				8BD6FE78228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld */,
+			);
+			path = "Psychedelic Art Generator";
+			sourceTree = "<group>";
+		};
+		8BD6FE88228B0470007166AD /* Psychedelic Art GeneratorTests */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE89228B0470007166AD /* Psychedelic_Art_GeneratorTests.swift */,
+				8BD6FE8B228B0470007166AD /* Info.plist */,
+			);
+			path = "Psychedelic Art GeneratorTests";
+			sourceTree = "<group>";
+		};
+		8BD6FE93228B0470007166AD /* Psychedelic Art GeneratorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE94228B0470007166AD /* Psychedelic_Art_GeneratorUITests.swift */,
+				8BD6FE96228B0470007166AD /* Info.plist */,
+			);
+			path = "Psychedelic Art GeneratorUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8BD6FE6D228B046E007166AD /* Psychedelic Art Generator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BD6FE99228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art Generator" */;
+			buildPhases = (
+				8BD6FE6A228B046E007166AD /* Sources */,
+				8BD6FE6B228B046E007166AD /* Frameworks */,
+				8BD6FE6C228B046E007166AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Psychedelic Art Generator";
+			productName = "Psychedelic Art Generator";
+			productReference = 8BD6FE6E228B046F007166AD /* Psychedelic Art Generator.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8BD6FE84228B0470007166AD /* Psychedelic Art GeneratorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BD6FE9C228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art GeneratorTests" */;
+			buildPhases = (
+				8BD6FE81228B0470007166AD /* Sources */,
+				8BD6FE82228B0470007166AD /* Frameworks */,
+				8BD6FE83228B0470007166AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8BD6FE87228B0470007166AD /* PBXTargetDependency */,
+			);
+			name = "Psychedelic Art GeneratorTests";
+			productName = "Psychedelic Art GeneratorTests";
+			productReference = 8BD6FE85228B0470007166AD /* Psychedelic Art GeneratorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8BD6FE8F228B0470007166AD /* Psychedelic Art GeneratorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BD6FE9F228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art GeneratorUITests" */;
+			buildPhases = (
+				8BD6FE8C228B0470007166AD /* Sources */,
+				8BD6FE8D228B0470007166AD /* Frameworks */,
+				8BD6FE8E228B0470007166AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8BD6FE92228B0470007166AD /* PBXTargetDependency */,
+			);
+			name = "Psychedelic Art GeneratorUITests";
+			productName = "Psychedelic Art GeneratorUITests";
+			productReference = 8BD6FE90228B0470007166AD /* Psychedelic Art GeneratorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8BD6FE66228B046E007166AD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = ReeseGames;
+				TargetAttributes = {
+					8BD6FE6D228B046E007166AD = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					8BD6FE84228B0470007166AD = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 8BD6FE6D228B046E007166AD;
+					};
+					8BD6FE8F228B0470007166AD = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 8BD6FE6D228B046E007166AD;
+					};
+				};
+			};
+			buildConfigurationList = 8BD6FE69228B046E007166AD /* Build configuration list for PBXProject "Psychedelic Art Generator" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8BD6FE65228B046E007166AD;
+			productRefGroup = 8BD6FE6F228B046F007166AD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8BD6FE6D228B046E007166AD /* Psychedelic Art Generator */,
+				8BD6FE84228B0470007166AD /* Psychedelic Art GeneratorTests */,
+				8BD6FE8F228B0470007166AD /* Psychedelic Art GeneratorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8BD6FE6C228B046E007166AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BD6FE7F228B0470007166AD /* LaunchScreen.storyboard in Resources */,
+				8BD6FE7C228B0470007166AD /* Assets.xcassets in Resources */,
+				8BD6FE77228B046F007166AD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE83228B0470007166AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE8E228B0470007166AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8BD6FE6A228B046E007166AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BD6FE74228B046F007166AD /* ViewController.swift in Sources */,
+				8BD8D422228B34E700628AA8 /* NewObjectConfigurationFromTable.swift in Sources */,
+				8BD6FEA3228B1218007166AD /* ArtCanvas.swift in Sources */,
+				8BA03E8E228B1889000809B7 /* Toolbar.swift in Sources */,
+				8BD6FE72228B046F007166AD /* AppDelegate.swift in Sources */,
+				8B250AA0228CD9AD00EA3606 /* CircleView.swift in Sources */,
+				8BCB702E228F3F73005A98E2 /* AbstractShapeView.swift in Sources */,
+				8B250AA2228CDFC900EA3606 /* RectangleView.swift in Sources */,
+				8BD6FE7A228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld in Sources */,
+				8BCB702C228F3CF5005A98E2 /* ShapeOptions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE81228B0470007166AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BD6FE8A228B0470007166AD /* Psychedelic_Art_GeneratorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD6FE8C228B0470007166AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BD6FE95228B0470007166AD /* Psychedelic_Art_GeneratorUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BD6FE87228B0470007166AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BD6FE6D228B046E007166AD /* Psychedelic Art Generator */;
+			targetProxy = 8BD6FE86228B0470007166AD /* PBXContainerItemProxy */;
+		};
+		8BD6FE92228B0470007166AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BD6FE6D228B046E007166AD /* Psychedelic Art Generator */;
+			targetProxy = 8BD6FE91228B0470007166AD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8BD6FE75228B046F007166AD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BD6FE76228B046F007166AD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BD6FE7E228B0470007166AD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8BD6FE97228B0470007166AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8BD6FE98228B0470007166AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8BD6FE9A228B0470007166AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art Generator/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8BD6FE9B228B0470007166AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art Generator/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8BD6FE9D228B0470007166AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art GeneratorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-GeneratorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Psychedelic Art Generator.app/Psychedelic Art Generator";
+			};
+			name = Debug;
+		};
+		8BD6FE9E228B0470007166AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art GeneratorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-GeneratorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Psychedelic Art Generator.app/Psychedelic Art Generator";
+			};
+			name = Release;
+		};
+		8BD6FEA0228B0470007166AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art GeneratorUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-GeneratorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Psychedelic Art Generator";
+			};
+			name = Debug;
+		};
+		8BD6FEA1228B0470007166AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NC7C453YSR;
+				INFOPLIST_FILE = "Psychedelic Art GeneratorUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ReeseGames.Psychedelic-Art-GeneratorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Psychedelic Art Generator";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8BD6FE69228B046E007166AD /* Build configuration list for PBXProject "Psychedelic Art Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BD6FE97228B0470007166AD /* Debug */,
+				8BD6FE98228B0470007166AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BD6FE99228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BD6FE9A228B0470007166AD /* Debug */,
+				8BD6FE9B228B0470007166AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BD6FE9C228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art GeneratorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BD6FE9D228B0470007166AD /* Debug */,
+				8BD6FE9E228B0470007166AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BD6FE9F228B0470007166AD /* Build configuration list for PBXNativeTarget "Psychedelic Art GeneratorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BD6FEA0228B0470007166AD /* Debug */,
+				8BD6FEA1228B0470007166AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8BD6FE78228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8BD6FE79228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodel */,
+			);
+			currentVersion = 8BD6FE79228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodel */;
+			path = Psychedelic_Art_Generator.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 8BD6FE66228B046E007166AD /* Project object */;
+}
