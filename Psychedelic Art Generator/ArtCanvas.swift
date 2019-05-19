@@ -9,7 +9,6 @@
 import UIKit
 import CoreGraphics
 
-
 class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     //Selected tool
@@ -18,6 +17,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     //User touch on screen
     var touchEnabled: Bool = true
+    
+    //Current shape being modified
+    var currentShape: AbstractShapeView?
     
     //View controller
     //var toolbarVC: UIViewController?
@@ -67,8 +69,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 switch ArtCanvas.toolSelected.row {
                 case 0:
                     print("Circle")
-                    let randomRectVal = CGRect(x: touch.x - 50, y: touch.y, width: 100, height: 100)
+                    let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                     let rectView = CircleView(frame: randomRectVal, identifier: "Circle1")
+                    currentShape = rectView
                     imageView.addSubview(rectView)
                     
                     if (showAdditionalOptions) {
@@ -104,21 +107,36 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         let maxY: CGFloat = screenHeight - toolbarHeight / 2 - 20
                         
                         //Use variables
-                        let useMinX: Bool = rectView.center.x >= screenWidth / 2
-                        let useMinY: Bool = rectView.center.y >= screenHeight / 2
+                        //let useMinX: Bool = rectView.center.x >= screenWidth / 2
+                        //let useMinY: Bool = rectView.center.y >= screenHeight / 2
+                        
+                        //Distance from frame corner to circle edge
+                        let cornerDistanceX: CGFloat = (1/7) * rectView.frame.width
+                        let cornerDistanceY: CGFloat = (1/7) * rectView.frame.height
                         
                         //Shape corners positions
-                        let shapeXMin: CGFloat = rectView.center.x - rectView.frame.width / 2 - minX
-                        let shapeYMin: CGFloat = rectView.center.y - rectView.frame.height / 2 //- toolbarHeight
-                        let shapeXMax: CGFloat = rectView.center.x + rectView.frame.width / 2 + minX
-                        let shapeYMax: CGFloat = rectView.center.y + rectView.frame.height / 2 + toolbarHeight
-                        
-                        //let corner1: CGPoint = CGPoint(x: shapeXMin, y: shapeYMin)
-                        //let corner2: CGPoint = CGPoint(x: shapeXMax, y: shapeYMin)
-                        //let corner3: CGPoint = CGPoint(x: shapeXMin, y: shapeYMax)
-                        //let corner4: CGPoint = CGPoint(x: shapeXMax, y: shapeYMax)
+                        let shapeXMin: CGFloat = rectView.center.x - rectView.frame.width / 2 - minX + cornerDistanceX
+                        let shapeYMin: CGFloat = rectView.center.y - rectView.frame.height / 2 + cornerDistanceY
+                        let shapeXMax: CGFloat = rectView.center.x + rectView.frame.width / 2 + minX - cornerDistanceX
+                        let shapeYMax: CGFloat = rectView.center.y + rectView.frame.height / 2 + toolbarHeight - cornerDistanceY
                         
                         toolbarVC.view.frame = CGRect(x: 0, y: 0, width: toolbarWidth, height: toolbarHeight)
+                        
+                        if (shapeXMin >= minX && shapeYMin >= minY) {
+                            toolbarVC.view.center = CGPoint(x: shapeXMin, y: shapeYMin)
+                        } else {
+                            //toolbarVC.view.center = CGPoint(x: maxX, y: maxY)
+                            if (shapeXMin >= minX && shapeYMax <= maxY) {
+                                toolbarVC.view.center = CGPoint(x: shapeXMin, y: shapeYMax)
+                            } else if (shapeXMax <= maxX && shapeYMin >= minY) {
+                                toolbarVC.view.center = CGPoint(x: shapeXMax, y: shapeYMin)
+                            } else if (shapeXMax <= maxX && shapeYMax <= maxY) {
+                                toolbarVC.view.center = CGPoint(x: shapeXMax, y: shapeYMax)
+                            } else {
+                                toolbarVC.view.center = CGPoint(x: screenWidth / 2, y: screenHeight / 2)
+                            }
+                        }
+                        /*
                         if (useMinX && useMinY) {
                             if (shapeXMin >= minX && shapeYMin >= minY) {
                                 toolbarVC.view.center = CGPoint(x: shapeXMin, y: shapeYMin)
@@ -143,7 +161,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                             } else {
                                 toolbarVC.view.center = CGPoint(x: maxX, y: maxY)
                             }
-                        }
+                        }*/
                         toolbarVC.view.tag = 1
                         
                         //Present popover
@@ -169,15 +187,50 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         }
     }
     
-    //Shape Options
-    @IBOutlet weak var widthValue: UITextField!
-    @IBAction func widthChanged(_ sender: Any) {
-        self.imageView.addSubview(CircleView(frame: CGRect(x: 100, y: 100, width: 100, height: 100), identifier: "Circle4"))
-        //ArtCanvas.modifiedShape = CircleView(frame: CGRect(x: 100, y: 100, width: 100, height: 100), identifier: "Circle4")
-    }
-    
     @IBAction func cancel(_ sender: Any) {
+        //Remove current shape
+        currentShape?.removeFromSuperview()
+        currentShape = nil
+        
+        //Remove toolbar
         self.view.viewWithTag(1)?.removeFromSuperview()
         touchEnabled = true
     }
+    
+    @IBAction func done(_ sender: Any) {
+        //Remove toolbar
+        self.view.viewWithTag(1)?.removeFromSuperview()
+        touchEnabled = true
+    }
+    
+    //Shape options
+    @IBOutlet weak var widthValue: UITextField!
+    @IBAction func widthChanged(_ sender: Any) {
+        let widthTextField = self.view.viewWithTag(1)?.subviews[1] as! UITextField
+        
+        currentShape?.removeFromSuperview()
+        if let width = NumberFormatter().number(from: widthTextField.text!) {
+            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: currentShape!.frame.origin.x, y: currentShape!.frame.origin.y, width: CGFloat(truncating: width), height: CGFloat(truncating: width)), identifier: "Circle1")
+            currentShape = newShape
+            imageView.addSubview(newShape)
+        } else {
+            widthTextField.text = ""
+        }
+    }
+    
+    @IBOutlet weak var heightValue: UITextField!
+    @IBAction func heightChanged(_ sender: Any) {
+        
+    }
+    
+    @IBOutlet weak var xValue: UITextField!
+    @IBAction func xChanged(_ sender: Any) {
+        
+    }
+    
+    @IBOutlet weak var yValue: UITextField!
+    @IBAction func yChanged(_ sender: Any) {
+        
+    }
+    
 }

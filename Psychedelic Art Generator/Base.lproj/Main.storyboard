@@ -100,7 +100,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 <connections>
-                                    <action selector="widthChanged:" destination="FVq-Qm-mdz" eventType="editingDidEnd" id="hdb-Xm-FZG"/>
+                                    <action selector="widthChanged:" destination="FVq-Qm-mdz" eventType="editingChanged" id="LUt-Oa-FK0"/>
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJS-Hk-RMa">
@@ -108,18 +108,27 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="heightChanged:" destination="FVq-Qm-mdz" eventType="editingChanged" id="lU0-uU-dFZ"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9gR-ph-57a">
                                 <rect key="frame" x="16" y="77" width="102.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="xChanged:" destination="FVq-Qm-mdz" eventType="editingChanged" id="rQW-03-qW7"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PGS-CR-JoU">
                                 <rect key="frame" x="131.5" y="77" width="102.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="yChanged:" destination="FVq-Qm-mdz" eventType="editingChanged" id="iwA-De-j4f"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IM5-BS-Rlm">
                                 <rect key="frame" x="197" y="115" width="37" height="30"/>
@@ -127,6 +136,9 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="37" id="G4K-WL-j92"/>
                                 </constraints>
                                 <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="done:" destination="FVq-Qm-mdz" eventType="touchUpInside" id="5yC-ng-BZo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="889-ZE-sGJ">
                                 <rect key="frame" x="78.5" y="115" width="93" height="30"/>
@@ -181,7 +193,10 @@
                     <value key="contentSizeForViewInPopover" type="size" width="250" height="150"/>
                     <size key="freeformSize" width="250" height="150"/>
                     <connections>
-                        <outlet property="widthValue" destination="oZE-1M-Jjo" id="Dhi-p8-7Dq"/>
+                        <outlet property="heightValue" destination="LJS-Hk-RMa" id="IWx-wp-hlr"/>
+                        <outlet property="widthValue" destination="oZE-1M-Jjo" id="tGr-8I-lzH"/>
+                        <outlet property="xValue" destination="9gR-ph-57a" id="eQT-sx-D5u"/>
+                        <outlet property="yValue" destination="PGS-CR-JoU" id="Xpi-Lz-l7t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jm6-6a-WVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

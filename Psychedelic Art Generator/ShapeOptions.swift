@@ -27,9 +27,6 @@ class ShapeOptions: ArtCanvas {
     @IBAction func moreOptions(_ sender: Any) {
         
     }
-    @IBAction func done(_ sender: Any) {
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
