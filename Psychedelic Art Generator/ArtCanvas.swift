@@ -45,7 +45,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         self.present(toolbarVC, animated: false)
     }
     
-    
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
@@ -164,6 +163,41 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         }*/
                         toolbarVC.view.tag = 1
                         
+                        //Creating prefixes for textfields
+                        let prefixWidth = UILabel()
+                        prefixWidth.text = "W: "
+                        prefixWidth.sizeToFit()
+                        let prefixHeight = UILabel()
+                        prefixHeight.text = "H: "
+                        prefixHeight.sizeToFit()
+                        let prefixX = UILabel()
+                        prefixX.text = "x: "
+                        prefixX.sizeToFit()
+                        let prefixY = UILabel()
+                        prefixY.text = "y: "
+                        prefixY.sizeToFit()
+                        
+                        //Default values for text views
+                        let widthInput = toolbarVC.view.subviews[1] as! UITextField
+                        let heightInput = toolbarVC.view.subviews[2] as! UITextField
+                        let xInput = toolbarVC.view.subviews[3] as! UITextField
+                        let yInput = toolbarVC.view.subviews[4] as! UITextField
+                        
+                        //Adding prefixes to textfields
+                        widthInput.leftView = prefixWidth
+                        widthInput.leftViewMode = .always
+                        heightInput.leftView = prefixHeight
+                        heightInput.leftViewMode = .always
+                        xInput.leftView = prefixX
+                        xInput.leftViewMode = .always
+                        yInput.leftView = prefixY
+                        yInput.leftViewMode = .always
+                        
+                        widthInput.text = "\(rectView.frame.width)"
+                        heightInput.text = "\(rectView.frame.height)"
+                        xInput.text = "\(rectView.frame.origin.x)"
+                        yInput.text = "\(rectView.frame.origin.y)"
+                        
                         //Present popover
                         //self.present(toolbarVC, animated: false)
                         toolbarVC.view.layer.borderWidth = 1
@@ -210,7 +244,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         
         currentShape?.removeFromSuperview()
         if let width = NumberFormatter().number(from: widthTextField.text!) {
-            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: currentShape!.frame.origin.x, y: currentShape!.frame.origin.y, width: CGFloat(truncating: width), height: CGFloat(truncating: width)), identifier: "Circle1")
+            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: currentShape!.frame.origin.x, y: currentShape!.frame.origin.y, width: CGFloat(truncating: width), height: currentShape!.frame.height), identifier: "Circle1")
             currentShape = newShape
             imageView.addSubview(newShape)
         } else {
@@ -220,17 +254,43 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var heightValue: UITextField!
     @IBAction func heightChanged(_ sender: Any) {
+        let heightTextField = self.view.viewWithTag(1)?.subviews[2] as! UITextField
         
+        currentShape?.removeFromSuperview()
+        if let height = NumberFormatter().number(from: heightTextField.text!) {
+            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: currentShape!.frame.origin.x, y: currentShape!.frame.origin.y, width: currentShape!.frame.width, height: CGFloat(truncating: height)), identifier: "Circle1")
+            currentShape = newShape
+            imageView.addSubview(newShape)
+        } else {
+            heightTextField.text = ""
+        }
     }
     
     @IBOutlet weak var xValue: UITextField!
     @IBAction func xChanged(_ sender: Any) {
+        let xTextField = self.view.viewWithTag(1)?.subviews[3] as! UITextField
         
+        currentShape?.removeFromSuperview()
+        if let xVal = NumberFormatter().number(from: xTextField.text!) {
+            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: CGFloat(truncating: xVal), y: currentShape!.frame.origin.y, width: currentShape!.frame.width, height: currentShape!.frame.height), identifier: "Circle1")
+            currentShape = newShape
+            imageView.addSubview(newShape)
+        } else {
+            xTextField.text = ""
+        }
     }
     
     @IBOutlet weak var yValue: UITextField!
     @IBAction func yChanged(_ sender: Any) {
+        let yTextField = self.view.viewWithTag(1)?.subviews[4] as! UITextField
         
+        currentShape?.removeFromSuperview()
+        if let yVal = NumberFormatter().number(from: yTextField.text!) {
+            let newShape: AbstractShapeView = CircleView(frame: CGRect(x: currentShape!.frame.origin.x, y: CGFloat(truncating: yVal), width: currentShape!.frame.width, height: currentShape!.frame.height), identifier: "Circle1")
+            currentShape = newShape
+            imageView.addSubview(newShape)
+        } else {
+            yTextField.text = ""
+        }
     }
-    
 }
