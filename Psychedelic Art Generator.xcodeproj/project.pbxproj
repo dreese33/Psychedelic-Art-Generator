@@ -10,7 +10,6 @@
 		8B250AA0228CD9AD00EA3606 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250A9F228CD9AD00EA3606 /* CircleView.swift */; };
 		8B250AA2228CDFC900EA3606 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250AA1228CDFC900EA3606 /* RectangleView.swift */; };
 		8BA03E8E228B1889000809B7 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA03E8D228B1889000809B7 /* Toolbar.swift */; };
-		8BCB702C228F3CF5005A98E2 /* ShapeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */; };
 		8BCB702E228F3F73005A98E2 /* AbstractShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */; };
 		8BD6FE72228B046F007166AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE71228B046F007166AD /* AppDelegate.swift */; };
 		8BD6FE74228B046F007166AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6FE73228B046F007166AD /* ViewController.swift */; };
@@ -45,7 +44,6 @@
 		8B250A9F228CD9AD00EA3606 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8B250AA1228CDFC900EA3606 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
 		8BA03E8D228B1889000809B7 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
-		8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptions.swift; sourceTree = "<group>"; };
 		8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractShapeView.swift; sourceTree = "<group>"; };
 		8BD6FE6E228B046F007166AD /* Psychedelic Art Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Psychedelic Art Generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD6FE71228B046F007166AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 				8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */,
 				8BA03E8D228B1889000809B7 /* Toolbar.swift */,
 				8BD6FE75228B046F007166AD /* Main.storyboard */,
-				8BCB702B228F3CF5005A98E2 /* ShapeOptions.swift */,
 				8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */,
 				8BD6FE7B228B0470007166AD /* Assets.xcassets */,
 				8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */,
@@ -289,7 +286,6 @@
 				8BCB702E228F3F73005A98E2 /* AbstractShapeView.swift in Sources */,
 				8B250AA2228CDFC900EA3606 /* RectangleView.swift in Sources */,
 				8BD6FE7A228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld in Sources */,
-				8BCB702C228F3CF5005A98E2 /* ShapeOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

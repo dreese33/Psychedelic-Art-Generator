@@ -61,12 +61,14 @@
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="5Dt-2l-HWX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="Cyc-xM-auM"/>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Shape Options" id="vc8-zK-Rlb">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="qJB-43-Bvm">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="ToggleButton" id="9nk-7n-o1x">
                             <connections>
-                                <action selector="cancelPressed:" destination="KzZ-GZ-eAs" id="X7H-JZ-NyO"/>
+                                <action selector="moreOptionsToolbar:" destination="KzZ-GZ-eAs" id="6lI-Z6-lhr"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="OwF-i5-4LD">
@@ -75,6 +77,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="shapeToolbar" destination="9nk-7n-o1x" id="fPl-eG-mLl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WL2-1g-vFf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -146,6 +151,9 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="93" id="nyO-9H-vGr"/>
                                 </constraints>
                                 <state key="normal" title="More Options"/>
+                                <connections>
+                                    <action selector="moreOptions:" destination="FVq-Qm-mdz" eventType="touchUpInside" id="gf6-dM-8pb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tmo-6M-j2I">
                                 <rect key="frame" x="16" y="115" width="48" height="30"/>
@@ -192,12 +200,6 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <value key="contentSizeForViewInPopover" type="size" width="250" height="150"/>
                     <size key="freeformSize" width="250" height="150"/>
-                    <connections>
-                        <outlet property="heightValue" destination="LJS-Hk-RMa" id="IWx-wp-hlr"/>
-                        <outlet property="widthValue" destination="oZE-1M-Jjo" id="tGr-8I-lzH"/>
-                        <outlet property="xValue" destination="9gR-ph-57a" id="eQT-sx-D5u"/>
-                        <outlet property="yValue" destination="PGS-CR-JoU" id="Xpi-Lz-l7t"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jm6-6a-WVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

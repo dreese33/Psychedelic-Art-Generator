@@ -11,8 +11,6 @@ import CoreGraphics
 
 class RectangleView: AbstractShapeView {
     
-    //var identifier: String = ""
-    
     init(frame: CGRect, identifier: String) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
@@ -20,12 +18,6 @@ class RectangleView: AbstractShapeView {
         self.draw(frame)
     }
     
-    /*
-     override init(frame: CGRect) {
-     super.init(frame: frame)
-     }
-     
-     */
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -35,11 +27,13 @@ class RectangleView: AbstractShapeView {
         if let context = UIGraphicsGetCurrentContext() {
             
             // Set the circle outerline-width
-            context.setLineWidth(5.0)
+            //context.setLineWidth(5.0)
             
             // Set the circle outerline-colour
-            context.setStrokeColor(UIColor.red.cgColor)
+            //context.setStrokeColor(UIColor.red.cgColor)
             // UIColor.red.set()
+            context.setFillColor(UIColor.red.cgColor)
+            context.fill(rect)
             
             //Create Rectangle
             context.addRect(rect)

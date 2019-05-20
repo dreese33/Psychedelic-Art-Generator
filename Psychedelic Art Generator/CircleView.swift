@@ -10,26 +10,18 @@ import UIKit
 import CoreGraphics
 
 class CircleView: AbstractShapeView {
-    
-    //var identifier: String = ""
-    
+
     init(frame: CGRect, identifier: String) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         super.identifier = identifier
         self.draw(frame)
     }
-    
-    /*
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
- 
- */
+
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func draw(_ rect: CGRect) {
         // Get the Graphics Context
         if let context = UIGraphicsGetCurrentContext() {

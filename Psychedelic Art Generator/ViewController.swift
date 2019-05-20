@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Initial view controller class used for the initialization of ArtCanvas
 class ViewController: UINavigationController {
 
     override func viewDidLoad() {
