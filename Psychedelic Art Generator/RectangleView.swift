@@ -9,7 +9,7 @@
 import UIKit
 import CoreGraphics
 
-class RectangleView: AbstractShapeView {
+class RectangleView: AbstractShapeView, NSCopying {
     
     init(frame: CGRect, identifier: String) {
         super.init(frame: frame)
@@ -40,5 +40,9 @@ class RectangleView: AbstractShapeView {
             context.strokePath()
         }
     }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = RectangleView(frame: self.frame, identifier: self.identifier)
+        return copy
+    }
 }
-

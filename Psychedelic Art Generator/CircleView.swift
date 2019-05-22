@@ -9,7 +9,7 @@
 import UIKit
 import CoreGraphics
 
-class CircleView: AbstractShapeView {
+class CircleView: AbstractShapeView, NSCopying {
 
     init(frame: CGRect, identifier: String) {
         super.init(frame: frame)
@@ -51,5 +51,10 @@ class CircleView: AbstractShapeView {
             // Draw
             context.strokePath()
         }
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = CircleView(frame: self.frame, identifier: self.identifier)
+        return copy
     }
 }

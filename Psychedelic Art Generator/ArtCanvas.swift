@@ -20,7 +20,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     var touchEnabled: Bool = true
     
     //Current shape being modified
-    var currentShape: AbstractShapeView?
+    public static var currentShape: AbstractShapeView?
     
     //Stamp tool enabled
     var showAdditionalOptions: Bool = true
@@ -46,16 +46,16 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NewObjectConfigurationFromTable.newToolbarActivated = false
     }
     
     //Code runs when tool selection is closed
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touchEnabled) {
-            
+
             //Ensures touch is inside of image view
             if let touch = touches.first?.location(in: imageView) {
                 
@@ -67,7 +67,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                     //Adds default circle to art canvas
                     let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                     let rectView = CircleView(frame: randomRectVal, identifier: "Circle1")
-                    currentShape = rectView
+                    ArtCanvas.currentShape = rectView
                     imageView.addSubview(rectView)
                     
                     if (showAdditionalOptions) {
@@ -79,7 +79,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                     print("Rectangle")
                     let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                     let rectView = RectangleView(frame: randomRectVal, identifier: "Rectangle1")
-                    currentShape = rectView
+                    ArtCanvas.currentShape = rectView
                     imageView.addSubview(rectView)
                     
                     if (showAdditionalOptions) {
@@ -102,8 +102,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     //Cancel action, removes added shape
     @IBAction func cancel(_ sender: Any) {
         //Remove current shape
-        currentShape?.removeFromSuperview()
-        currentShape = nil
+        ArtCanvas.currentShape?.removeFromSuperview()
+        ArtCanvas.currentShape = nil
         
         //Remove toolbar
         self.view.viewWithTag(1)?.removeFromSuperview()
@@ -158,6 +158,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             viewController.popoverPresentationController?.barButtonItem = toolbar
             viewController.preferredContentSize = CGSize(width: 74, height: UIScreen.main.bounds.height - 88)
             viewController.popoverPresentationController?.delegate = self
+        } else {
+            viewController.popoverPresentationController?.sourceView = self.view
+            viewController.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
         
         //Present popover
@@ -239,13 +242,13 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         if let val = NumberFormatter().number(from: textField.text!) {
             switch field {
             case 1:
-                currentShape?.updateWidth(width: CGFloat(truncating: val))
+                ArtCanvas.currentShape?.updateWidth(width: CGFloat(truncating: val))
             case 2:
-                currentShape?.updateHeight(height: CGFloat(truncating: val))
+                ArtCanvas.currentShape?.updateHeight(height: CGFloat(truncating: val))
             case 3:
-                currentShape?.updateX(x: CGFloat(truncating: val))
+                ArtCanvas.currentShape?.updateX(x: CGFloat(truncating: val))
             case 4:
-                currentShape?.updateY(y: CGFloat(truncating: val))
+                ArtCanvas.currentShape?.updateY(y: CGFloat(truncating: val))
             default:
                 print("Something went wrong")
                 return
