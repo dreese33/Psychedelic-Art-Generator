@@ -10,6 +10,9 @@ import UIKit
 
 class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresentationControllerDelegate {
     
+    //Image view
+    @IBOutlet var imageView: UIImageView!
+    
     //Which toolbar is activated
     public static var newToolbarActivated: Bool = false
     public static var toolSelected: IndexPath = IndexPath(row: 0, section: 0)
@@ -38,6 +41,7 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
     @IBAction func donePressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         NewObjectConfigurationFromTable.newToolbarActivated = false
+        ColorView.arrowAdded = false
     }
     
     override func viewDidLoad() {
@@ -79,10 +83,22 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         shapeView?.addSubview(additionalShape)
         shapeView?.layer.borderWidth = 1
         self.view.addSubview(shapeView!)
+        
+        //Add color wheel to view
+        self.view.addSubview(createColorWheel())
     }
     
     //Popover presentation enabled
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
+    }
+    
+    //Creates the hollow circle color wheel
+    func createColorWheel() -> UIView {
+        let colorWheelDimension = UIScreen.main.bounds.width * (4/5)
+        let view = ColorView(frame: CGRect(x: 0, y: 0, width: colorWheelDimension, height: colorWheelDimension))
+        view.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2.5)
+        
+        return view
     }
 }

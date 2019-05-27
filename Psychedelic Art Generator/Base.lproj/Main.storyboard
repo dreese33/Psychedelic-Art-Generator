@@ -58,13 +58,10 @@
         <scene sceneID="n11-Qo-WI7">
             <objects>
                 <viewController id="KzZ-GZ-eAs" customClass="NewObjectConfigurationFromTable" customModule="Psychedelic_Art_Generator" customModuleProvider="target" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="5Dt-2l-HWX">
+                    <imageView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Ran-o8-mlL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="Cyc-xM-auM"/>
-                    </scrollView>
+                    </imageView>
                     <navigationItem key="navigationItem" title="Shape Options" id="vc8-zK-Rlb">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="ToggleButton" id="9nk-7n-o1x">
                             <connections>
@@ -78,6 +75,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="imageView" destination="Ran-o8-mlL" id="RHu-hF-TdQ"/>
                         <outlet property="shapeToolbar" destination="9nk-7n-o1x" id="fPl-eG-mLl"/>
                     </connections>
                 </viewController>
