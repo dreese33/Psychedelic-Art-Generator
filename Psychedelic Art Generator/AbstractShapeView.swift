@@ -9,7 +9,13 @@
 import UIKit
 
 class AbstractShapeView: UIView {
+    
+    //Shape identifier
     var identifier: String = ""
+    
+    //Color updating
+    var colorNeedsUpdated: Bool = false
+    var color: UIColor?
     
     //Update shape dimensions
     func updateWidth(width: CGFloat) {
@@ -26,5 +32,9 @@ class AbstractShapeView: UIView {
     
     func updateY(y: CGFloat) {
         self.frame = CGRect(x: self.frame.origin.x, y: y, width: self.frame.width, height: self.frame.height)
+    }
+    
+    func updateColor(color: UIColor) {
+        fatalError("Must override")
     }
 }

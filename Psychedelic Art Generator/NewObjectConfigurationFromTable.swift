@@ -17,6 +17,9 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
     public static var newToolbarActivated: Bool = false
     public static var toolSelected: IndexPath = IndexPath(row: 0, section: 0)
     
+    //Additional shape for modification
+    public static var additionalShape: AbstractShapeView?
+    
     //Shape subview
     var shapeView: UIImageView?
     
@@ -42,6 +45,11 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         self.dismiss(animated: true, completion: nil)
         NewObjectConfigurationFromTable.newToolbarActivated = false
         ColorView.arrowAdded = false
+        ColorView.initialPositionSet = false
+        
+        //print("Dismissed")
+        ColorSaturationAndBrightnessSelector.selectionCircleAdded = false
+        ColorView.currentArrowPositionAngle = 0
     }
     
     override func viewDidLoad() {
@@ -62,25 +70,27 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         
         //Issue with the copy method
         print("Worked")
-        let additionalShape = ArtCanvas.currentShape!.copy() as! AbstractShapeView
+        if (NewObjectConfigurationFromTable.additionalShape == nil) {
+            NewObjectConfigurationFromTable.additionalShape = ArtCanvas.currentShape!.copy() as! AbstractShapeView
+        }
         print("Worked past cast")
         
         let addShapeXY = shapeView!.bounds.width / 6
-        let heightWidthFactor = additionalShape.bounds.height / additionalShape.bounds.width
+        let heightWidthFactor = NewObjectConfigurationFromTable.additionalShape!.bounds.height / NewObjectConfigurationFromTable.additionalShape!.bounds.width
         
         if (heightWidthFactor == 0) {
-            additionalShape.frame = CGRect(x: addShapeXY, y: addShapeXY, width: shapeView!.bounds.width * (2/3), height: shapeView!.bounds.height * (2/3))
+            NewObjectConfigurationFromTable.additionalShape!.frame = CGRect(x: addShapeXY, y: addShapeXY, width: shapeView!.bounds.width * (2/3), height: shapeView!.bounds.height * (2/3))
         } else if (heightWidthFactor < 1) {
             let newWidth = shapeView!.bounds.width * (2/3)
-            additionalShape.frame = CGRect(x: addShapeXY, y: addShapeXY, width: newWidth, height: newWidth * heightWidthFactor)
+            NewObjectConfigurationFromTable.additionalShape!.frame = CGRect(x: addShapeXY, y: addShapeXY, width: newWidth, height: newWidth * heightWidthFactor)
         } else {
             let newHeight = shapeView!.bounds.height * (2/3)
-            additionalShape.frame = CGRect(x: addShapeXY, y: addShapeXY, width: newHeight * (1 / heightWidthFactor), height: newHeight)
+            NewObjectConfigurationFromTable.additionalShape!.frame = CGRect(x: addShapeXY, y: addShapeXY, width: newHeight * (1 / heightWidthFactor), height: newHeight)
         }
         
-        additionalShape.center = CGPoint(x: shapeView!.bounds.width / 2, y: shapeView!.bounds.height / 2)
+        NewObjectConfigurationFromTable.additionalShape!.center = CGPoint(x: shapeView!.bounds.width / 2, y: shapeView!.bounds.height / 2)
         
-        shapeView?.addSubview(additionalShape)
+        shapeView?.addSubview(NewObjectConfigurationFromTable.additionalShape!)
         shapeView?.layer.borderWidth = 1
         self.view.addSubview(shapeView!)
         

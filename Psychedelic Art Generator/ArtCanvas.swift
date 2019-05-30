@@ -105,6 +105,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         ArtCanvas.currentShape?.removeFromSuperview()
         ArtCanvas.currentShape = nil
         
+        NewObjectConfigurationFromTable.additionalShape = nil
+        
         //Remove toolbar
         self.view.viewWithTag(1)?.removeFromSuperview()
         touchEnabled = true
@@ -115,6 +117,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         //Remove toolbar
         self.view.viewWithTag(1)?.removeFromSuperview()
         touchEnabled = true
+        
+        NewObjectConfigurationFromTable.additionalShape = nil
     }
     
     //More options for shape

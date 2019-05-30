@@ -32,17 +32,40 @@ class RectangleView: AbstractShapeView, NSCopying {
             // Set the circle outerline-colour
             //context.setStrokeColor(UIColor.red.cgColor)
             // UIColor.red.set()
+            
+            if (self.colorNeedsUpdated) {
+                context.setFillColor(self.color!.cgColor)
+                context.fill(rect)
+                
+                //Recreate Rectangle
+                context.addRect(rect)
+                context.strokePath()
+                
+                self.colorNeedsUpdated = false
+                return
+            }
+            
             context.setFillColor(UIColor.red.cgColor)
             context.fill(rect)
-            
+            self.color = UIColor.red
+        
             //Create Rectangle
             context.addRect(rect)
             context.strokePath()
+
         }
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = RectangleView(frame: self.frame, identifier: self.identifier)
         return copy
+    }
+    
+    //Update shape color
+    override func updateColor(color: UIColor) {
+        self.color = color
+        self.colorNeedsUpdated = true
+        self.draw(self.frame)
+        self.setNeedsDisplay()
     }
 }

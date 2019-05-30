@@ -38,16 +38,29 @@ class CircleView: AbstractShapeView, NSCopying {
             //let radius = frame.size.width / 2
             //context.addArc(center: center, radius: radius, startAngle: 0.0, endAngle: .pi * 2.0, clockwise: true)
             //context.addEllipse(in: frame)
+            
+            if (self.colorNeedsUpdated) {
+                
+                let ellipsePath = UIBezierPath(ovalIn: self.bounds)
+                self.color!.setFill()
+                ellipsePath.fill()
+                
+                context.addPath(ellipsePath.cgPath)
+                
+                self.colorNeedsUpdated = false
+                return
+            }
+            
             let ellipsePath = UIBezierPath(ovalIn: self.bounds)
             UIColor.red.setFill()
             ellipsePath.fill()
-            
-            context.addPath(ellipsePath.cgPath)
+            self.color = UIColor.red
+        
             //ellipsePath.stroke()
             //context.add
             //context.setFillColor(UIColor.red.cgColor)
             //context.fillPath()
-            
+        
             // Draw
             context.strokePath()
         }
@@ -56,5 +69,13 @@ class CircleView: AbstractShapeView, NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = CircleView(frame: self.frame, identifier: self.identifier)
         return copy
+    }
+    
+    //Update shape color
+    override func updateColor(color: UIColor) {
+        self.color = color
+        self.colorNeedsUpdated = true
+        self.draw(self.frame)
+        self.setNeedsDisplay()
     }
 }

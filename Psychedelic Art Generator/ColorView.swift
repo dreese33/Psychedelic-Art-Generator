@@ -11,9 +11,6 @@ import CoreGraphics
 
 class ColorView: UIView {
     
-    //First time drawn
-    //private static var firstTimeDrawn: Bool = true
-    
     //Arrow origin
     private var arrowCenterOrigin: CGPoint?
     private var circleCenterPoint: CGPoint?
@@ -23,6 +20,7 @@ class ColorView: UIView {
     private static var arrowWidth: CGFloat?
     
     //Current arrow position in radians
+    //Reset this to 0 when view is dismissed
     public static var currentArrowPositionAngle: CGFloat = 0
     
     //Bezier paths
@@ -32,6 +30,9 @@ class ColorView: UIView {
     
     //Ellipse path radius (outer)
     private var ellipsePathRadius: CGFloat?
+    
+    //Initial position set
+    public static var initialPositionSet: Bool = false
     
     //Image view
     private var imageView: UIImageView?
@@ -43,7 +44,7 @@ class ColorView: UIView {
     //Contains an empty initializer for this class
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.clear
+        self.backgroundColor = UIColor.clear
         self.draw(frame)
     }
     
@@ -56,6 +57,7 @@ class ColorView: UIView {
             ColorView.ellipsePath = UIBezierPath(ovalIn: CGRect(x: self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.width - 2, height: self.bounds.height - 2))
             ColorView.ellipsePath!.lineWidth = 1
             context.addPath(ColorView.ellipsePath!.cgPath)
+            
         
             //Assign circle center point and radius
             circleCenterPoint = CGPoint(x: self.bounds.origin.x + 1 + (ColorView.ellipsePath!.bounds.width / 2), y: self.bounds.origin.y + 1 + (ColorView.ellipsePath!.bounds.height / 2))
@@ -79,6 +81,12 @@ class ColorView: UIView {
             //Inner square
             innerSquare = ColorSaturationAndBrightnessSelector(frame: CGRect(x: ColorView.ellipsePathInner!.bounds.origin.x + (ColorView.ellipsePathInner!.bounds.width / 4), y: ColorView.ellipsePathInner!.bounds.origin.y + (ColorView.ellipsePathInner!.bounds.width / 4), width: ColorView.ellipsePathInner!.bounds.width / 2, height: ColorView.ellipsePathInner!.bounds.width / 2))
             self.addSubview(innerSquare!)
+            
+            if (!ColorView.initialPositionSet) {
+                ColorView.initialPositionSet = true
+                print("Called")
+                self.setColorPosition()
+            }
         }
     }
     
@@ -130,6 +138,10 @@ class ColorView: UIView {
                 self.rotateArrow(touch: touch)
                 innerSquare!.draw(innerSquare!.frame)
                 innerSquare!.setNeedsDisplay()
+                
+                let color = ColorSaturationAndBrightnessSelector.getSelectedColor()
+                ArtCanvas.currentShape!.updateColor(color: color)
+                NewObjectConfigurationFromTable.additionalShape!.updateColor(color: color)
             }
         }
     }
@@ -140,6 +152,10 @@ class ColorView: UIView {
                 self.rotateArrow(touch: touch)
                 innerSquare!.draw(innerSquare!.frame)
                 innerSquare!.setNeedsDisplay()
+                
+                let color = ColorSaturationAndBrightnessSelector.getSelectedColor()
+                ArtCanvas.currentShape!.updateColor(color: color)
+                NewObjectConfigurationFromTable.additionalShape!.updateColor(color: color)
             }
         }
     }
@@ -185,6 +201,29 @@ class ColorView: UIView {
         ColorView.currentArrowPositionAngle = rotationAngle
     }
     
+    //Arrow rotation based on degrees
+    func rotateArrow(degrees: CGFloat) {
+        var angleRadians = ColorView.toRadians(degreeValue: degrees)
+        angleRadians -= (1/2) * .pi
+        
+        let outerRadius = ColorView.ellipsePath!.bounds.height / 2
+        let rotationPoint = CGPoint(x: outerRadius * cos(angleRadians) + self.circleCenterPoint!.x, y: outerRadius * sin(angleRadians) + self.circleCenterPoint!.y)
+        
+        let arrowMoveFactor = ColorView.arrowWidth! / 2
+        
+        var finalY: CGFloat
+        var finalX: CGFloat
+        
+        angleRadians += (1/2) * .pi
+        finalY = rotationPoint.y - (arrowMoveFactor * cos(angleRadians))
+        finalX = rotationPoint.x + (arrowMoveFactor * sin(angleRadians))
+        
+        self.imageView!.center = CGPoint(x: finalX, y: finalY)
+        self.imageView!.transform = CGAffineTransform(rotationAngle: angleRadians)
+        
+        ColorView.currentArrowPositionAngle = angleRadians
+    }
+    
     //Degrees and radians conversions
     public static func toDegrees(radianValue: CGFloat) -> CGFloat {
         var degreeValue = (radianValue * 180) / .pi
@@ -203,17 +242,66 @@ class ColorView: UIView {
         
         return radianValue
     }
+    
+    //Function to set color wheel to appropriate position upon loading
+    func setColorPosition() {
+        
+        //Set hue position
+        let color = ArtCanvas.currentShape!.color!
+        
+        //Gets hsb values
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
+        
+        //Rotate arrow to proper position
+        self.rotateArrow(degrees: hue * 360)
+        //innerSquare!.draw(innerSquare!.frame)
+        //innerSquare!.setNeedsDisplay()
+        
+        //Set brightness and saturation position
+        innerSquare!.setColorPosition(saturation: saturation, brightness: brightness)
+    }
 }
 
 
 
 //Class for inner square
 class ColorSaturationAndBrightnessSelector: UIView {
+    
+    //Selection circle added
+    //Reset this to false when view is closed
+    public static var selectionCircleAdded: Bool = false
+    
+    //Inner square selection circle
+    private static var selectionCircle: UIView?
+    //public static var selectedColor: UIColor?
+    
+    //View bounds for outside use
+    public static var viewBounds: CGRect?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.cgColor
+        
+        if (!ColorSaturationAndBrightnessSelector.selectionCircleAdded) {
+            ColorSaturationAndBrightnessSelector.selectionCircleAdded = true
+            
+            ColorSaturationAndBrightnessSelector.selectionCircle = UIView(frame: CGRect(x: self.bounds.width / 2, y: self.bounds.height / 2, width: self.bounds.width / 13, height: self.bounds.width / 13))
+            
+            let selectionCircleLayer = CAShapeLayer()
+            selectionCircleLayer.fillColor = UIColor.clear.cgColor
+            selectionCircleLayer.strokeColor = UIColor.black.cgColor
+            selectionCircleLayer.path = UIBezierPath(arcCenter: CGPoint(x: ColorSaturationAndBrightnessSelector.selectionCircle!.bounds.width / 2, y: ColorSaturationAndBrightnessSelector.selectionCircle!.bounds.height / 2), radius: self.bounds.width / 26, startAngle: 0, endAngle: 360, clockwise: true).cgPath
+            ColorSaturationAndBrightnessSelector.selectionCircle!.layer.addSublayer(selectionCircleLayer)
+            
+            self.addSubview(ColorSaturationAndBrightnessSelector.selectionCircle!)
+
+            ColorSaturationAndBrightnessSelector.viewBounds = self.bounds
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -228,6 +316,10 @@ class ColorSaturationAndBrightnessSelector: UIView {
             context.strokePath()
             
             addWheelBrightnessAndSaturation(context: context)
+            
+            //context.addPath(ColorSaturationAndBrightnessSelector.selectionCircle!.cgPath)
+            //context.setStrokeColor(UIColor.black.cgColor)
+            //context.strokePath()
         }
     }
     
@@ -251,5 +343,50 @@ class ColorSaturationAndBrightnessSelector: UIView {
                 context.strokePath()
             }
         }
+    }
+    
+    //Touch handling inside of saturation and brightness selector
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first?.location(in: self) {
+            UIView.animate(withDuration: 0.25, animations: { ()
+                ColorSaturationAndBrightnessSelector.selectionCircle!.center = CGPoint(x: touch.x, y: touch.y)
+                
+                let color = ColorSaturationAndBrightnessSelector.getSelectedColor()
+                ArtCanvas.currentShape!.updateColor(color: color)
+                NewObjectConfigurationFromTable.additionalShape!.updateColor(color: color)
+            })
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first?.location(in: self) {
+            UIView.animate(withDuration: 0.25, animations: { ()
+                ColorSaturationAndBrightnessSelector.selectionCircle!.center = CGPoint(x: touch.x, y: touch.y)
+                
+                let color = ColorSaturationAndBrightnessSelector.getSelectedColor()
+                ArtCanvas.currentShape!.updateColor(color: color)
+                NewObjectConfigurationFromTable.additionalShape!.updateColor(color: color)
+            })
+        }
+    }
+    
+    //Selected color
+    public static func getSelectedColor() -> UIColor {
+        let selectionCenterPoint = ColorSaturationAndBrightnessSelector.selectionCircle!.center
+        let relativeCenterPoint = CGPoint(x: selectionCenterPoint.x / ColorSaturationAndBrightnessSelector.viewBounds!.width , y: selectionCenterPoint.y / ColorSaturationAndBrightnessSelector.viewBounds!.height)
+        
+        //Calculate hue
+        let arrowPositionDegrees = ColorView.toDegrees(radianValue: ColorView.currentArrowPositionAngle) * 10
+        let hue = arrowPositionDegrees / 3600
+        
+        let color = UIColor(hue: hue, saturation: relativeCenterPoint.x, brightness: relativeCenterPoint.y, alpha: 1)
+        return color
+    }
+    
+    //Sets color position upon load
+    func setColorPosition(saturation: CGFloat, brightness: CGFloat) {
+        ColorSaturationAndBrightnessSelector.selectionCircle!.center = CGPoint(x: saturation * self.bounds.width, y: brightness * self.bounds.height)
+        //self.draw(frame)
+        //rself.setNeedsDisplay()
     }
 }
