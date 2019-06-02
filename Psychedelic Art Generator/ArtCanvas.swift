@@ -13,6 +13,21 @@ import CoreGraphics
 //This is where all shapes, tesselations, and fractals will be drawn and configured
 class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
+    //Move and resize bool array
+    private static var moveAndResize: UInt8 = 0
+    
+    //Touch variables
+    var firstTouchLocation: CGPoint?
+    var resettableTouchLocation: CGPoint?
+    var timesTouchesMoved: UInt8 = 0
+    private static var firstTimeMoved: Bool = true
+    
+    //0 - none, 1 - left, 2 - right, 3 - up, 4 - down
+    var sideMoveDirection: UInt8 = 0
+    
+    //0 - none, 1 - top left, 2 - bottom left, 3 - bottom right, 4 - top right
+    var sidePressed: UInt8 = 0
+    
     //Tool selected, modified in Toolbar class
     public static var toolSelected: IndexPath = IndexPath(row: 0, section: 0)
     
@@ -59,9 +74,48 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             //Ensures touch is inside of image view
             if let touch = touches.first?.location(in: imageView) {
                 
+                //Reset touches moved values
+                self.firstTouchLocation = touch
+                self.resettableTouchLocation = touch
+                self.sideMoveDirection = 0
+                ArtCanvas.firstTimeMoved = true
+                
+                //Set side pressed
+                if (ArtCanvas.currentShape != nil) {
+                    if (touch.x > ArtCanvas.currentShape!.center.x) {
+                        if (touch.y > ArtCanvas.currentShape!.center.y) {
+                            print("Bottom right")
+                            self.sidePressed = 3
+                        } else {
+                            print("Top right")
+                            self.sidePressed = 4
+                        }
+                    } else {
+                        if (touch.y > ArtCanvas.currentShape!.center.y) {
+                            print("Bottom left")
+                            self.sidePressed = 2
+                        } else {
+                            print("Top left")
+                            self.sidePressed = 1
+                        }
+                    }
+                }
+                
                 //Tool options
                 switch ArtCanvas.toolSelected.row {
                 case 0:
+                    ArtCanvas.moveAndResize = 1
+                    if (ArtCanvas.currentShape != nil) {
+                        if (!ArtCanvas.currentShape!.frame.contains(touch)) {
+                            ArtCanvas.currentShape!.center = touch
+                        }
+                    }
+                case 1:
+                    ArtCanvas.moveAndResize = 2
+                case 2:
+                    ArtCanvas.moveAndResize = 3
+                case 3:
+                    ArtCanvas.moveAndResize = 0
                     print("Circle")
                     
                     //Adds default circle to art canvas
@@ -75,7 +129,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         //Adds shape options view
                         addShapeOptions(rectView: rectView)
                     }
-                case 1:
+                case 4:
+                    ArtCanvas.moveAndResize = 0
                     print("Rectangle")
                     let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                     let rectView = RectangleView(frame: randomRectVal, identifier: "Rectangle1")
@@ -87,12 +142,207 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         //Adds shape options view
                         addShapeOptions(rectView: rectView)
                     }
-                case 2:
+                case 5:
+                    ArtCanvas.moveAndResize = 0
                     print("Pentagon")
-                case 3:
+                case 6:
                     print("Star")
                 default:
                     print("Something went wrong")
+                }
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (ArtCanvas.moveAndResize != 0) {
+            
+            touchEnabled = true
+            if (ArtCanvas.currentShape != nil) {
+                if let touch = touches.first?.location(in: self.imageView!) {
+                    switch ArtCanvas.moveAndResize {
+                    case 1:
+                        print("Move")
+                        
+                        if ArtCanvas.currentShape!.frame.contains(touch) {
+                            //Calculate distance from last touch, then move shape accordingly
+                            let distanceMoved = CGPoint(x: touch.x - self.firstTouchLocation!.x, y: touch.y - self.firstTouchLocation!.y)
+                            self.firstTouchLocation = touch
+                            ArtCanvas.currentShape!.center = CGPoint(x: ArtCanvas.currentShape!.center.x + distanceMoved.x, y: ArtCanvas.currentShape!.center.y + distanceMoved.y)
+                        } else {
+                            ArtCanvas.currentShape!.center = touch
+                        }
+                        
+                    case 2:
+                        print("Resize Sideways")
+                        
+                        self.resettableTouchLocation = touch
+                        if (self.timesTouchesMoved == 4) {
+                            
+                            self.timesTouchesMoved = 0
+                        }
+                        
+                    case 3:
+                        //print("Resize Horizontal")
+                        
+                        
+                        if (ArtCanvas.firstTimeMoved) {
+                            self.firstTouchLocation = touch
+                            ArtCanvas.firstTimeMoved = false
+                        }
+ 
+                        //Set initial touch
+                        if (self.timesTouchesMoved == 0) {
+                            self.resettableTouchLocation = touch
+                        }
+                        
+                        //No direction selected yet, collect 10 points of information, then move it
+                        if (self.sideMoveDirection == 0) {
+                            
+                            if (self.timesTouchesMoved == 10) {
+                                
+                                //Set side move direction
+                                let xDifference = self.resettableTouchLocation!.x - touch.x
+                                let yDifference = self.resettableTouchLocation!.y - touch.y
+                                
+                                if (xDifference > 0 && yDifference > 0) {
+                                    if (xDifference == yDifference) {
+                                        //print("No movement")
+                                        self.sideMoveDirection = 0
+                                    } else if (xDifference > yDifference) {
+                                        //print("Left")
+                                        self.sideMoveDirection = 1
+                                    } else {
+                                        //print("Up")
+                                        self.sideMoveDirection = 3
+                                    }
+                                } else if (xDifference < 0 && yDifference < 0) {
+                                    if (xDifference == yDifference) {
+                                        //print("No movement")
+                                        self.sideMoveDirection = 0
+                                    } else if (xDifference < yDifference) {
+                                        //print("Right")
+                                        self.sideMoveDirection = 2
+                                    } else {
+                                        //print("Down")
+                                        self.sideMoveDirection = 4
+                                    }
+                                } else {
+                                    let difference = xDifference + yDifference
+                                    if (difference == 0) {
+                                        //print("No movement")
+                                        self.sideMoveDirection = 0
+                                    } else if (xDifference > 0) {
+                                        if (difference > 0) {
+                                            //print("Left")
+                                            self.sideMoveDirection = 1
+                                        } else {
+                                            //print("Down")
+                                            self.sideMoveDirection = 4
+                                        }
+                                    } else {
+                                        if (difference > 0) {
+                                            //print("Up")
+                                            self.sideMoveDirection = 3
+                                        } else {
+                                            //print("Right")
+                                            self.sideMoveDirection = 2
+                                        }
+                                    }
+                                }
+                                
+                                self.timesTouchesMoved = 0
+                            } else {
+                                self.timesTouchesMoved += 1
+                            }
+                        } else {
+                            
+                            //Change scaling from shrinking to expanding
+                            if (self.timesTouchesMoved == 6) {
+                                
+                                self.timesTouchesMoved = 0
+                                
+                                if (self.sideMoveDirection == 1 || self.sideMoveDirection == 2) {
+                                    let xDifference = self.resettableTouchLocation!.x - touch.x
+                                    if (xDifference < 0) {
+                                        //print("Right")
+                                        self.sideMoveDirection = 2
+                                    } else {
+                                        //print("Left")
+                                        self.sideMoveDirection = 1
+                                    }
+                                } else {
+                                    let yDifference = self.resettableTouchLocation!.y - touch.y
+                                    if (yDifference < 0) {
+                                        //print("Down")
+                                        self.sideMoveDirection = 4
+                                    } else {
+                                        //print("Up")
+                                        self.sideMoveDirection = 3
+                                    }
+                                }
+                            } else {
+                                self.timesTouchesMoved += 1
+                            }
+                            
+                            //Apply transform
+                            let newWidthGrow = abs(touch.x - ArtCanvas.currentShape!.frame.origin.x) + ArtCanvas.currentShape!.frame.width
+                            
+                            let newWidthShrink = ArtCanvas.currentShape!.frame.width - abs(touch.x - ArtCanvas.currentShape!.frame.origin.x)
+                            
+                            let newHeightGrow = ArtCanvas.currentShape!.frame.height + abs(ArtCanvas.currentShape!.frame.origin.y - touch.y)
+                            
+                            let newHeightShrink = ArtCanvas.currentShape!.frame.height - abs(touch.y - ArtCanvas.currentShape!.frame.origin.y)
+                            
+                            switch self.sideMoveDirection {
+                            case 1:
+                                print("Left")
+                                
+                                if (self.sidePressed == 1 || self.sidePressed == 2) {
+                                    //Grow left
+                                    ArtCanvas.currentShape!.frame = CGRect(x: touch.x, y: ArtCanvas.currentShape!.frame.origin.y, width: newWidthGrow, height: ArtCanvas.currentShape!.frame.height)
+                                } else {
+                                    //Shrink left
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: abs(touch.x - ArtCanvas.currentShape!.frame.origin.x), height: ArtCanvas.currentShape!.frame.height)
+                                }
+                            case 2:
+                                print("Right")
+                                if (self.sidePressed == 1 || self.sidePressed == 2) {
+                                    //Shrink right
+                                    ArtCanvas.currentShape!.frame = CGRect(x: touch.x, y: ArtCanvas.currentShape!.frame.origin.y, width: newWidthShrink, height: ArtCanvas.currentShape!.frame.height)
+                                } else {
+                                    //Grow right
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: abs(touch.x - ArtCanvas.currentShape!.frame.origin.x), height: ArtCanvas.currentShape!.frame.height)
+                                }
+                            case 3:
+                                print("Up")
+                                if (self.sidePressed == 1 || self.sidePressed == 4) {
+                                    //Grow up
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: touch.y, width: ArtCanvas.currentShape!.frame.width, height: newHeightGrow)
+                                } else {
+                                    //Shrink up
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: ArtCanvas.currentShape!.frame.width, height: abs(touch.y - ArtCanvas.currentShape!.frame.origin.y))
+                                }
+                            case 4:
+                                print("Down")
+                                if (self.sidePressed == 1 || self.sidePressed == 4) {
+                                    //Shrink down
+                                    print("Shrink Down")
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: touch.y, width: ArtCanvas.currentShape!.frame.width, height: newHeightShrink)
+                                } else {
+                                    //Grow down
+                                    print("Grow Down")
+                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: ArtCanvas.currentShape!.frame.width, height: abs(ArtCanvas.currentShape!.frame.origin.y - touch.y))
+                                }
+                            default:
+                                print("Something went wrong")
+                            }
+                            
+                            self.firstTouchLocation = touch
+                        }
+                    default:
+                        print("No transformation")
+                    }
                 }
             }
         }

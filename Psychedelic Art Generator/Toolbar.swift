@@ -11,7 +11,7 @@ import UIKit
 class Toolbar: UITableViewController, UIPopoverPresentationControllerDelegate {
     
     //Tool arrays for tools and shape options
-    private final var toolArray: [UIImage] = [UIImage(named: "Circle")!, UIImage(named: "Rectangle")!, UIImage(named: "Pentagon")!, UIImage(named: "Star")!]
+    private final var toolArray: [UIImage] = [UIImage(named: "Move")!, UIImage(named: "ResizeSide")!, UIImage(named: "ResizeHorizontal")!, UIImage(named: "Circle")!, UIImage(named: "Rectangle")!, UIImage(named: "Pentagon")!, UIImage(named: "Star")!]
     private final var moreOptionsToolArray: [String] = ["Color"]
     
     override func viewDidLoad() {
