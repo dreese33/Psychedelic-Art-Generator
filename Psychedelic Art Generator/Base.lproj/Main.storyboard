@@ -206,7 +206,7 @@
         <!--Art Canvas-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ArtCanvas" customModule="Psychedelic_Art_Generator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="artCanvas" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ArtCanvas" customModule="Psychedelic_Art_Generator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -247,6 +247,8 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="5ne-Ns-Slk" id="1BP-qA-ddr"/>
+                        <outlet property="navigationBar" destination="YVb-Jl-Vso" id="zLr-EL-Br7"/>
+                        <outlet property="settingsButton" destination="7VU-5M-SBU" id="q7k-Zf-6kA"/>
                         <outlet property="toolbar" destination="izs-FZ-ahI" id="dn4-0w-HL2"/>
                     </connections>
                 </viewController>

@@ -13,6 +13,22 @@ import CoreGraphics
 //This is where all shapes, tesselations, and fractals will be drawn and configured
 class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
+    //Possibly delete these variables, organize them later once completely integrated into the application
+    @IBOutlet weak var navigationBar: UINavigationItem!
+    @IBOutlet weak var settingsButton: UIButton!
+    let doubleSlider = DoubleSlider(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    let doubleSliderVertical = DoubleSlider(frame: CGRect(x: 0, y: 0, width: 0, height: 0), orientation: .vertical)
+    let collapseHorizontalSlider = UIImageView(image: UIImage(named: "ColorWheelArrow"))
+    let collapseVerticalSlider = UIImageView(image: UIImage(named: "ColorWheelArrow"))
+    var featuresNotLoaded: Bool = true
+    
+    //Collapse sliders logic
+    private var horizontalSliderCollapsed: Bool = false
+    private var verticalSliderCollapsed: Bool = false
+    
+    //Transition
+    private var shiftTransitioningDelegate: ShiftScreenTransitioningDelegate!
+    
     //Move and resize bool array
     private static var moveAndResize: UInt8 = 0
     
@@ -57,6 +73,71 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     //Default override
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       // let collapseImage = UIImage(named: "ColorWheelArrow")
+        
+       // imageViewVertical = UIImageView(image: collapseImage)
+        //imageViewHorizontal = UIImageView(image: collapseImage)
+        
+        //self.view.addSubview(imageViewVertical!)
+        //self.view.addSubview(imageViewHorizontal!)
+        
+        //Add custom double slider
+        doubleSlider.isHidden = true
+        self.view.addSubview(doubleSlider)
+        doubleSlider.addTarget(self, action: #selector(doubleSliderValueChanged(doubleSlider:)), for: .valueChanged)
+        
+        //Add custom vertical double slider
+        doubleSliderVertical.isHidden = true
+        self.view.addSubview(doubleSliderVertical)
+        doubleSliderVertical.addTarget(self, action: #selector(doubleSliderValueChanged(doubleSlider:)), for: .valueChanged)
+        
+        //print("height: \(UIScreen.main.bounds.height) width: \(UIScreen.main.bounds.width)")
+    }
+    
+    @objc func doubleSliderValueChanged(doubleSlider: DoubleSlider) {
+        print("Double slider value changed: (\(doubleSlider.lowerValue) \(doubleSlider.upperValue))")
+        let relativeThumbSize: Double!
+        if (doubleSlider.alignment == .horizontal) {
+            relativeThumbSize = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.width)
+        } else {
+            relativeThumbSize = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.height)
+        }
+        
+        let thumbPosUpper = doubleSlider.upperValue - relativeThumbSize
+        let thumbPosLower = doubleSlider.lowerValue + relativeThumbSize
+        if (doubleSlider.lowerValue > thumbPosUpper) {
+            doubleSlider.lowerValue = thumbPosUpper
+        } else if (doubleSlider.upperValue < thumbPosLower) {
+            doubleSlider.upperValue = thumbPosLower
+        }
+        
+        //Prevent slider thumbs from going off slider
+        if (doubleSlider.lowerValue < 0.0) {
+            doubleSlider.lowerValue = 0.0
+        }
+        
+        if (doubleSlider.upperValue < relativeThumbSize) {
+            doubleSlider.upperValue = relativeThumbSize
+        }
+        
+        if (doubleSlider.upperValue > 1.0) {
+            doubleSlider.upperValue = 1.0
+        }
+        
+        if (doubleSlider.lowerValue > 1.0 - relativeThumbSize) {
+            doubleSlider.lowerValue = 1.0 - relativeThumbSize
+        }
+        
+        updateCurrentShapeSize(alignment: doubleSlider.alignment!)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let width = view.bounds.width
+        let height = view.bounds.height
+        doubleSlider.frame = CGRect(x: 0, y: view.bounds.height - 50,
+                                   width: width, height: 50)
+        doubleSliderVertical.frame = CGRect(x: view.bounds.width - 50, y: 0, width: 50, height: height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,10 +146,25 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     //Code runs when tool selection is closed
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if (self.featuresNotLoaded) {
+            //Collapse features for sliders
+            imageView.addSubview(collapseVerticalSlider)
+            imageView.addSubview(collapseHorizontalSlider)
+        
+            collapseHorizontalSlider.isHidden = true
+            collapseVerticalSlider.isHidden = true
+        
+            collapseHorizontalSlider.frame = CGRect(x: doubleSlider.thumbWidth / 2, y: imageView.bounds.height - 75, width: 25, height: 25)
+            collapseVerticalSlider.frame = CGRect(x: imageView.bounds.width - 75, y: doubleSliderVertical.thumbWidth / 2, width: 25, height: 25)
+            collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: -.pi / 2)
+            
+            self.featuresNotLoaded = false
+        }
+        
         if (touchEnabled) {
 
             //Ensures touch is inside of image view
@@ -105,15 +201,67 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 switch ArtCanvas.toolSelected.row {
                 case 0:
                     ArtCanvas.moveAndResize = 1
-                    if (ArtCanvas.currentShape != nil) {
-                        if (!ArtCanvas.currentShape!.frame.contains(touch)) {
-                            ArtCanvas.currentShape!.center = touch
+                    
+                    print("vertical: \(collapseVerticalSlider.frame) horizontal: \(collapseHorizontalSlider.frame) touch: \(touch)")
+                    
+                    //Collapse sliders
+                    if (collapseHorizontalSlider.frame.contains(touch)) {
+                        if (!horizontalSliderCollapsed) {
+                            collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: .pi)
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.doubleSlider.frame.origin = CGPoint(x: self.doubleSlider.frame.origin.x, y: UIScreen.main.bounds.height)
+                                self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.collapseHorizontalSlider.frame.origin.x, y: self.imageView.bounds.height - 25)
+                            })
+                            
+                            horizontalSliderCollapsed = true
+                        } else {
+                            collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: 0)
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.doubleSlider.frame.origin = CGPoint(x: 0, y: self.view.bounds.height - 50)
+                                self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.doubleSlider.thumbWidth / 2, y: self.imageView.bounds.height - 75)
+                            })
+                            
+                            horizontalSliderCollapsed = false
+                        }
+                    } else if (collapseVerticalSlider.frame.contains(touch)) {
+                        if (!verticalSliderCollapsed) {
+                            collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: .pi / 2)
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.doubleSliderVertical.frame.origin = CGPoint(x: self.imageView.bounds.width, y: self.doubleSliderVertical.frame.origin.y)
+                                self.collapseVerticalSlider.frame.origin = CGPoint(x: UIScreen.main.bounds.width - 25, y: self.collapseVerticalSlider.frame.origin.y)
+                            })
+                            
+                            verticalSliderCollapsed = true
+                        } else {
+                            collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: -.pi / 2)
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.doubleSliderVertical.frame.origin = CGPoint(x: self.view.bounds.width - 50, y: 0)
+                                self.collapseVerticalSlider.frame.origin = CGPoint(x: self.imageView.bounds.width - 75, y: self.doubleSliderVertical.thumbWidth / 2)
+                            })
+                            
+                            verticalSliderCollapsed = false
+                        }
+                    } else {
+                        //print("Else")
+                        if (ArtCanvas.currentShape != nil) {
+                            if (!ArtCanvas.currentShape!.frame.contains(touch)) {
+                                ArtCanvas.currentShape!.center = touch
+                            }
+                        }
+                    
+                        if (ArtCanvas.currentShape != nil) {
+                            revealSliders()
                         }
                     }
                 case 1:
                     ArtCanvas.moveAndResize = 2
+                    hideSliders()
                 case 2:
                     ArtCanvas.moveAndResize = 3
+                    
+                    if (ArtCanvas.currentShape != nil) {
+                        revealSliders()
+                    }
                 case 3:
                     ArtCanvas.moveAndResize = 0
                     print("Circle")
@@ -129,6 +277,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         //Adds shape options view
                         addShapeOptions(rectView: rectView)
                     }
+                    
+                    hideSliders()
                 case 4:
                     ArtCanvas.moveAndResize = 0
                     print("Rectangle")
@@ -142,13 +292,20 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         //Adds shape options view
                         addShapeOptions(rectView: rectView)
                     }
+                    
+                    hideSliders()
                 case 5:
                     ArtCanvas.moveAndResize = 0
                     print("Pentagon")
+                    
+                    hideSliders()
                 case 6:
                     print("Star")
+                    
+                    hideSliders()
                 default:
                     print("Something went wrong")
+                    hideSliders()
                 }
             }
         }
@@ -162,8 +319,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 if let touch = touches.first?.location(in: self.imageView!) {
                     switch ArtCanvas.moveAndResize {
                     case 1:
-                        print("Move")
-                        
                         if ArtCanvas.currentShape!.frame.contains(touch) {
                             //Calculate distance from last touch, then move shape accordingly
                             let distanceMoved = CGPoint(x: touch.x - self.firstTouchLocation!.x, y: touch.y - self.firstTouchLocation!.y)
@@ -172,6 +327,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         } else {
                             ArtCanvas.currentShape!.center = touch
                         }
+                        
+                        updateSliders()
                         
                     case 2:
                         print("Resize Sideways")
@@ -183,163 +340,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         }
                         
                     case 3:
-                        //print("Resize Horizontal")
-                        
-                        
-                        if (ArtCanvas.firstTimeMoved) {
-                            self.firstTouchLocation = touch
-                            ArtCanvas.firstTimeMoved = false
-                        }
- 
-                        //Set initial touch
-                        if (self.timesTouchesMoved == 0) {
-                            self.resettableTouchLocation = touch
-                        }
-                        
-                        //No direction selected yet, collect 10 points of information, then move it
-                        if (self.sideMoveDirection == 0) {
-                            
-                            if (self.timesTouchesMoved == 10) {
-                                
-                                //Set side move direction
-                                let xDifference = self.resettableTouchLocation!.x - touch.x
-                                let yDifference = self.resettableTouchLocation!.y - touch.y
-                                
-                                if (xDifference > 0 && yDifference > 0) {
-                                    if (xDifference == yDifference) {
-                                        //print("No movement")
-                                        self.sideMoveDirection = 0
-                                    } else if (xDifference > yDifference) {
-                                        //print("Left")
-                                        self.sideMoveDirection = 1
-                                    } else {
-                                        //print("Up")
-                                        self.sideMoveDirection = 3
-                                    }
-                                } else if (xDifference < 0 && yDifference < 0) {
-                                    if (xDifference == yDifference) {
-                                        //print("No movement")
-                                        self.sideMoveDirection = 0
-                                    } else if (xDifference < yDifference) {
-                                        //print("Right")
-                                        self.sideMoveDirection = 2
-                                    } else {
-                                        //print("Down")
-                                        self.sideMoveDirection = 4
-                                    }
-                                } else {
-                                    let difference = xDifference + yDifference
-                                    if (difference == 0) {
-                                        //print("No movement")
-                                        self.sideMoveDirection = 0
-                                    } else if (xDifference > 0) {
-                                        if (difference > 0) {
-                                            //print("Left")
-                                            self.sideMoveDirection = 1
-                                        } else {
-                                            //print("Down")
-                                            self.sideMoveDirection = 4
-                                        }
-                                    } else {
-                                        if (difference > 0) {
-                                            //print("Up")
-                                            self.sideMoveDirection = 3
-                                        } else {
-                                            //print("Right")
-                                            self.sideMoveDirection = 2
-                                        }
-                                    }
-                                }
-                                
-                                self.timesTouchesMoved = 0
-                            } else {
-                                self.timesTouchesMoved += 1
-                            }
-                        } else {
-                            
-                            //Change scaling from shrinking to expanding
-                            if (self.timesTouchesMoved == 6) {
-                                
-                                self.timesTouchesMoved = 0
-                                
-                                if (self.sideMoveDirection == 1 || self.sideMoveDirection == 2) {
-                                    let xDifference = self.resettableTouchLocation!.x - touch.x
-                                    if (xDifference < 0) {
-                                        //print("Right")
-                                        self.sideMoveDirection = 2
-                                    } else {
-                                        //print("Left")
-                                        self.sideMoveDirection = 1
-                                    }
-                                } else {
-                                    let yDifference = self.resettableTouchLocation!.y - touch.y
-                                    if (yDifference < 0) {
-                                        //print("Down")
-                                        self.sideMoveDirection = 4
-                                    } else {
-                                        //print("Up")
-                                        self.sideMoveDirection = 3
-                                    }
-                                }
-                            } else {
-                                self.timesTouchesMoved += 1
-                            }
-                            
-                            //Apply transform
-                            let newWidthGrow = abs(touch.x - ArtCanvas.currentShape!.frame.origin.x) + ArtCanvas.currentShape!.frame.width
-                            
-                            let newWidthShrink = ArtCanvas.currentShape!.frame.width - abs(touch.x - ArtCanvas.currentShape!.frame.origin.x)
-                            
-                            let newHeightGrow = ArtCanvas.currentShape!.frame.height + abs(ArtCanvas.currentShape!.frame.origin.y - touch.y)
-                            
-                            let newHeightShrink = ArtCanvas.currentShape!.frame.height - abs(touch.y - ArtCanvas.currentShape!.frame.origin.y)
-                            
-                            switch self.sideMoveDirection {
-                            case 1:
-                                print("Left")
-                                
-                                if (self.sidePressed == 1 || self.sidePressed == 2) {
-                                    //Grow left
-                                    ArtCanvas.currentShape!.frame = CGRect(x: touch.x, y: ArtCanvas.currentShape!.frame.origin.y, width: newWidthGrow, height: ArtCanvas.currentShape!.frame.height)
-                                } else {
-                                    //Shrink left
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: abs(touch.x - ArtCanvas.currentShape!.frame.origin.x), height: ArtCanvas.currentShape!.frame.height)
-                                }
-                            case 2:
-                                print("Right")
-                                if (self.sidePressed == 1 || self.sidePressed == 2) {
-                                    //Shrink right
-                                    ArtCanvas.currentShape!.frame = CGRect(x: touch.x, y: ArtCanvas.currentShape!.frame.origin.y, width: newWidthShrink, height: ArtCanvas.currentShape!.frame.height)
-                                } else {
-                                    //Grow right
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: abs(touch.x - ArtCanvas.currentShape!.frame.origin.x), height: ArtCanvas.currentShape!.frame.height)
-                                }
-                            case 3:
-                                print("Up")
-                                if (self.sidePressed == 1 || self.sidePressed == 4) {
-                                    //Grow up
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: touch.y, width: ArtCanvas.currentShape!.frame.width, height: newHeightGrow)
-                                } else {
-                                    //Shrink up
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: ArtCanvas.currentShape!.frame.width, height: abs(touch.y - ArtCanvas.currentShape!.frame.origin.y))
-                                }
-                            case 4:
-                                print("Down")
-                                if (self.sidePressed == 1 || self.sidePressed == 4) {
-                                    //Shrink down
-                                    print("Shrink Down")
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: touch.y, width: ArtCanvas.currentShape!.frame.width, height: newHeightShrink)
-                                } else {
-                                    //Grow down
-                                    print("Grow Down")
-                                    ArtCanvas.currentShape!.frame = CGRect(x: ArtCanvas.currentShape!.frame.origin.x, y: ArtCanvas.currentShape!.frame.origin.y, width: ArtCanvas.currentShape!.frame.width, height: abs(ArtCanvas.currentShape!.frame.origin.y - touch.y))
-                                }
-                            default:
-                                print("Something went wrong")
-                            }
-                            
-                            self.firstTouchLocation = touch
-                        }
+                        print("Resize Horizontal")
                     default:
                         print("No transformation")
                     }
@@ -403,18 +404,24 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        //Popover presentation style
-        viewController.modalPresentationStyle = .popover
-        
         //Specify anchor point
         
         if (identifier == "toolbar") {
-            viewController.popoverPresentationController?.barButtonItem = toolbar
+            //viewController.popoverPresentationController?.barButtonItem = toolbar
             viewController.preferredContentSize = CGSize(width: 74, height: UIScreen.main.bounds.height - 88)
-            viewController.popoverPresentationController?.delegate = self
+            //viewController.popoverPresentationController?.delegate = self
+            
+            //Popover presentation style
+            shiftTransitioningDelegate = ShiftScreenTransitioningDelegate(from: self, to: viewController)
+            viewController.modalPresentationStyle = .custom
+            viewController.transitioningDelegate = shiftTransitioningDelegate
+            print("that")
         } else {
             viewController.popoverPresentationController?.sourceView = self.view
             viewController.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            //Popover presentation style
+           // viewController.modalPresentationStyle = .popover
         }
         
         //Present popover
@@ -552,5 +559,88 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         heightInput.text = "\(rectView.frame.height)"
         xInput.text = "\(rectView.frame.origin.x)"
         yInput.text = "\(rectView.frame.origin.y)"
+    }
+    
+    func revealSliders() {
+        updateSliders()
+        settingsButton.isHidden = true
+        doubleSlider.isHidden = false
+        doubleSliderVertical.isHidden = false
+        collapseHorizontalSlider.isHidden = false
+        collapseVerticalSlider.isHidden = false
+    }
+    
+    func hideSliders() {
+        settingsButton.isHidden = false
+        doubleSlider.isHidden = true
+        doubleSliderVertical.isHidden = true
+        collapseHorizontalSlider.isHidden = true
+        collapseVerticalSlider.isHidden = true
+    }
+    
+    func updateSliders() {
+        let relativeThumbSizeHorizontal = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.width)
+        let relativeThumbSizeVertical = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.height)
+        
+        //Once end is reached on either side, thumbheight is amount it is off by
+        let horizontalScreenPercentage = Double(ArtCanvas.currentShape!.frame.origin.x / doubleSlider.frame.width)
+        let verticalScreenPercentage = Double(ArtCanvas.currentShape!.frame.origin.y / doubleSliderVertical.frame.height)
+        let horizontalScreenPercentageWidth = Double((ArtCanvas.currentShape!.frame.origin.x + ArtCanvas.currentShape!.frame.width) / doubleSlider.frame.width)
+        let verticalScreenPercentageHeight = Double((ArtCanvas.currentShape!.frame.origin.y + ArtCanvas.currentShape!.frame.height) / doubleSliderVertical.frame.height)
+        
+        let horizontalThumbFactor = Double(relativeThumbSizeHorizontal) * Double(0.5 - horizontalScreenPercentage)
+        let verticalThumbFactor = Double(relativeThumbSizeVertical) * Double(0.5 - verticalScreenPercentage)
+        let horizontalThumbFactorWidth = Double(relativeThumbSizeHorizontal) * Double(0.5 - horizontalScreenPercentageWidth)
+        let verticalThumbFactorHeight = Double(relativeThumbSizeVertical) * Double(0.5 - verticalScreenPercentageHeight)
+        
+        //print("Horizontal: \(horizontalThumbFactor)   Vertical: \(verticalThumbFactor)")
+        
+        doubleSlider.lowerValue = Double((ArtCanvas.currentShape!.frame.origin.x) / (doubleSlider.frame.width)) - horizontalThumbFactor
+        doubleSlider.upperValue = Double((ArtCanvas.currentShape!.frame.origin.x + ArtCanvas.currentShape!.frame.width) / (doubleSlider.frame.width)) - horizontalThumbFactorWidth
+        doubleSliderVertical.lowerValue = Double((ArtCanvas.currentShape!.frame.origin.y + 44 + doubleSlider.thumbWidth / 4 + UIApplication.shared.statusBarFrame.height) / doubleSliderVertical.frame.height) - verticalThumbFactor
+        
+        if (UIDevice.current.userInterfaceIdiom == .phone) {
+            doubleSliderVertical.upperValue = Double((ArtCanvas.currentShape!.frame.origin.y + 44 + UIApplication.shared.statusBarFrame.height + ArtCanvas.currentShape!.frame.height) / doubleSliderVertical.frame.height) - verticalThumbFactorHeight
+        } else {
+            doubleSliderVertical.upperValue = Double((ArtCanvas.currentShape!.frame.origin.y + 44 + UIApplication.shared.statusBarFrame.height + ArtCanvas.currentShape!.frame.height + doubleSlider.thumbWidth / 4) / doubleSliderVertical.frame.height) - verticalThumbFactorHeight
+        }
+    }
+    
+    
+    func updateCurrentShapeSize(alignment: Alignment) {
+        
+        let irrelevantScreenHeightFactor = (44 + UIApplication.shared.statusBarFrame.height) / doubleSliderVertical.frame.height
+        
+        let relativeThumbSizeHorizontal = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.width)
+        let relativeThumbSizeVertical = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.height)
+        
+        //Once end is reached on either side, thumbheight is amount it is off by
+        
+        let horizontalScreenPercentage = Double(ArtCanvas.currentShape!.frame.origin.x / doubleSlider.frame.width)
+        let verticalScreenPercentage = Double(ArtCanvas.currentShape!.frame.origin.y / doubleSliderVertical.frame.height)
+        let horizontalScreenPercentageWidth = Double((ArtCanvas.currentShape!.frame.origin.x + ArtCanvas.currentShape!.frame.width) / doubleSlider.frame.width)
+        let verticalScreenPercentageHeight = Double((ArtCanvas.currentShape!.frame.origin.y + ArtCanvas.currentShape!.frame.height) / doubleSliderVertical.frame.height)
+        
+        let horizontalThumbFactor = CGFloat(relativeThumbSizeHorizontal) * (CGFloat(0.5 - horizontalScreenPercentage))
+        let verticalThumbFactor = CGFloat(relativeThumbSizeVertical) * (CGFloat(0.5 - verticalScreenPercentage))
+        let horizontalThumbFactorWidth = CGFloat(relativeThumbSizeHorizontal) * (CGFloat(0.5 - horizontalScreenPercentageWidth))
+        let verticalThumbFactorHeight = CGFloat(relativeThumbSizeVertical) * (CGFloat(0.5 - verticalScreenPercentageHeight))
+        
+        var xVal: CGFloat!
+        var yVal: CGFloat!
+        var widthVal: CGFloat!
+        var heightVal: CGFloat!
+        
+        xVal = (CGFloat(doubleSlider.lowerValue) + horizontalThumbFactor) * doubleSlider.frame.width
+        yVal = (CGFloat(doubleSliderVertical.lowerValue) - irrelevantScreenHeightFactor - CGFloat(relativeThumbSizeVertical / 4) + verticalThumbFactor) * doubleSliderVertical.frame.height
+        widthVal = ((CGFloat(doubleSlider.upperValue) + horizontalThumbFactorWidth) - (CGFloat(doubleSlider.lowerValue) + horizontalThumbFactor)) * doubleSlider.frame.width
+        
+        if (UIDevice.current.userInterfaceIdiom == .phone) {
+            heightVal = (CGFloat(doubleSliderVertical.upperValue) + verticalThumbFactorHeight - (CGFloat(doubleSliderVertical.lowerValue) + verticalThumbFactor) + CGFloat(relativeThumbSizeVertical / 4)) * doubleSliderVertical.frame.height
+        } else {
+             heightVal = (CGFloat(doubleSliderVertical.upperValue) + verticalThumbFactorHeight - (CGFloat(doubleSliderVertical.lowerValue) + verticalThumbFactor)) * doubleSliderVertical.frame.height
+        }
+        
+        ArtCanvas.currentShape!.frame = CGRect(x: xVal, y: yVal, width: widthVal, height: heightVal)
     }
 }
