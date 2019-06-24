@@ -107,7 +107,7 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
     func createColorWheel() -> UIView {
         let colorWheelDimension = UIScreen.main.bounds.width * (4/5)
         let view = ColorView(frame: CGRect(x: 0, y: 0, width: colorWheelDimension, height: colorWheelDimension))
-        view.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2.5)
+        view.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: (colorWheelDimension / 2) + 44 + UIApplication.shared.statusBarFrame.height + UIScreen.main.bounds.width * (1/10))
         
         return view
     }

@@ -9,16 +9,29 @@
 import Foundation
 import UIKit
 
+//The direction in which to present the controller
+enum PresentationDirection {
+    case left
+    case top
+    case right
+    case bottom
+}
+
 //Transitioning Delegate for shifting screen from click
 final class ShiftScreenTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     var interactiveDismiss = true
+    var direction = PresentationDirection.left
     
     init(from presented: UIViewController, to presenting: UIViewController) {
         super.init()
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        return ShiftScreenPresentationAnimator(direction: .left, isPresentation: false)
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ShiftScreenPresentationAnimator(direction: .left, isPresentation: true)
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -26,6 +39,6 @@ final class ShiftScreenTransitioningDelegate: NSObject, UIViewControllerTransiti
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ShiftScreenPresentationController(presentedViewController: presented, presenting: presenting)
+        return ShiftScreenPresentationController(presentedViewController: presented, presenting: presenting, direction: .left)
     }
 }

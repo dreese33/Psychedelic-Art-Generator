@@ -394,7 +394,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         textFieldChanged(field: 4)
     }
     
-    
     //Functions for program
     
     /*
@@ -407,25 +406,24 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         //Specify anchor point
         
         if (identifier == "toolbar") {
-            //viewController.popoverPresentationController?.barButtonItem = toolbar
             viewController.preferredContentSize = CGSize(width: 74, height: UIScreen.main.bounds.height - 88)
-            //viewController.popoverPresentationController?.delegate = self
             
             //Popover presentation style
             shiftTransitioningDelegate = ShiftScreenTransitioningDelegate(from: self, to: viewController)
+            shiftTransitioningDelegate.direction = .left
             viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = shiftTransitioningDelegate
-            print("that")
+            
+            //Present popover
+            self.present(viewController, animated: true)
         } else {
             viewController.popoverPresentationController?.sourceView = self.view
             viewController.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
+            self.present(viewController, animated: false)
             //Popover presentation style
            // viewController.modalPresentationStyle = .popover
         }
-        
-        //Present popover
-        self.present(viewController, animated: false)
     }
     
     /*
@@ -643,4 +641,11 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         
         ArtCanvas.currentShape!.frame = CGRect(x: xVal, y: yVal, width: widthVal, height: heightVal)
     }
+    
+    /*
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? Toolbar {
+            
+        }
+    }*/
 }

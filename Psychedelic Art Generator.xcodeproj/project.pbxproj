@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8B250AA0228CD9AD00EA3606 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250A9F228CD9AD00EA3606 /* CircleView.swift */; };
 		8B250AA2228CDFC900EA3606 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B250AA1228CDFC900EA3606 /* RectangleView.swift */; };
+		8B3B6C3D22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B6C3C22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift */; };
 		8B883D6C2295ADC60009D71C /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B883D6B2295ADC60009D71C /* ColorView.swift */; };
 		8BA03E8E228B1889000809B7 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA03E8D228B1889000809B7 /* Toolbar.swift */; };
 		8BB3FDA622AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB3FDA522AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		8B250A9F228CD9AD00EA3606 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8B250AA1228CDFC900EA3606 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		8B3B6C3C22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftScreenPresentationAnimator.swift; sourceTree = "<group>"; };
 		8B883D6B2295ADC60009D71C /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		8BA03E8D228B1889000809B7 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		8BB3FDA522AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftScreenTransitioningDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				8BD6FE73228B046F007166AD /* ViewController.swift */,
 				8BD6FEA2228B1218007166AD /* ArtCanvas.swift */,
 				8BB3FDA522AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift */,
+				8B3B6C3C22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift */,
 				8BB3FDA722AEB5E10000937F /* ShiftScreenPresentationController.swift */,
 				8B883D6B2295ADC60009D71C /* ColorView.swift */,
 				8B250A9F228CD9AD00EA3606 /* CircleView.swift */,
@@ -300,6 +303,7 @@
 				8BD6FE74228B046F007166AD /* ViewController.swift in Sources */,
 				8BD8D422228B34E700628AA8 /* NewObjectConfigurationFromTable.swift in Sources */,
 				8BD6FEA3228B1218007166AD /* ArtCanvas.swift in Sources */,
+				8B3B6C3D22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift in Sources */,
 				8BA03E8E228B1889000809B7 /* Toolbar.swift in Sources */,
 				8B883D6C2295ADC60009D71C /* ColorView.swift in Sources */,
 				8BD6FE72228B046F007166AD /* AppDelegate.swift in Sources */,
