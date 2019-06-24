@@ -62,7 +62,8 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     //Toolbar display action and outlet
     @IBOutlet weak var toolbar: UIBarButtonItem!
     @IBAction func toolbarAction(_ sender: Any) {
-        displayViewController(identifier: "toolbar")
+        //displayViewController(identifier: "toolbar")
+        displayViewController(identifier: "customToolbarHalfScreen")
     }
     
     //Popover presentation enabled
@@ -91,7 +92,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         doubleSliderVertical.isHidden = true
         self.view.addSubview(doubleSliderVertical)
         doubleSliderVertical.addTarget(self, action: #selector(doubleSliderValueChanged(doubleSlider:)), for: .valueChanged)
-        
         //print("height: \(UIScreen.main.bounds.height) width: \(UIScreen.main.bounds.width)")
     }
     
@@ -416,6 +416,15 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             
             //Present popover
             self.present(viewController, animated: true)
+        } else if (identifier == "customToolbarHalfScreen") {
+            //Custom presentation style
+            shiftTransitioningDelegate = ShiftScreenTransitioningDelegate(from: self, to: viewController)
+            shiftTransitioningDelegate.direction = .left
+            viewController.modalPresentationStyle = .custom
+            viewController.transitioningDelegate = shiftTransitioningDelegate
+            
+            //Present custom presentation
+            self.present(viewController, animated: true)
         } else {
             viewController.popoverPresentationController?.sourceView = self.view
             viewController.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -641,11 +650,4 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         
         ArtCanvas.currentShape!.frame = CGRect(x: xVal, y: yVal, width: widthVal, height: heightVal)
     }
-    
-    /*
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? Toolbar {
-            
-        }
-    }*/
 }

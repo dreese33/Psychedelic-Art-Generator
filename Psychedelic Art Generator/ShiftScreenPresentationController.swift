@@ -79,7 +79,7 @@ final class ShiftScreenPresentationController: UIPresentationController {
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         switch direction {
         case .left, .right:
-            return CGSize(width: parentSize.width * (1.0 / 3.0), height: parentSize.height)
+            return CGSize(width: parentSize.width * (2.0 / 3.0), height: parentSize.height)
         case .top, .bottom:
             return CGSize(width: parentSize.width, height: parentSize.height * (1.0 / 3.0))
         }

@@ -203,6 +203,55 @@
             </objects>
             <point key="canvasLocation" x="2125.5999999999999" y="26.53673163418291"/>
         </scene>
+        <!--Custom Toolbar Half Screen-->
+        <scene sceneID="okk-hj-jTL">
+            <objects>
+                <viewController storyboardIdentifier="customToolbarHalfScreen" id="WiU-kr-79I" customClass="CustomToolbarHalfScreen" customModule="Psychedelic_Art_Generator" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nKC-a5-TkF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BoU-Tl-2Q4">
+                                <rect key="frame" x="0.0" y="20" width="187.5" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="toolCell" id="n5e-Yk-19W">
+                                        <rect key="frame" x="0.0" y="28" width="187.5" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n5e-Yk-19W" id="7CQ-mJ-uPW">
+                                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9HJ-yF-NJz">
+                                <rect key="frame" x="187.5" y="20" width="187.5" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9HJ-yF-NJz" firstAttribute="trailing" secondItem="01Y-jy-LQc" secondAttribute="trailing" id="1iD-M4-3lb"/>
+                            <constraint firstItem="9HJ-yF-NJz" firstAttribute="top" secondItem="01Y-jy-LQc" secondAttribute="top" id="Ae7-w4-T51"/>
+                            <constraint firstItem="BoU-Tl-2Q4" firstAttribute="bottom" secondItem="01Y-jy-LQc" secondAttribute="bottom" id="f7c-yl-Vtt"/>
+                            <constraint firstItem="BoU-Tl-2Q4" firstAttribute="width" secondItem="9HJ-yF-NJz" secondAttribute="width" id="goL-Er-GZV"/>
+                            <constraint firstItem="9HJ-yF-NJz" firstAttribute="leading" secondItem="BoU-Tl-2Q4" secondAttribute="trailing" id="oTB-qS-zts"/>
+                            <constraint firstItem="BoU-Tl-2Q4" firstAttribute="leading" secondItem="01Y-jy-LQc" secondAttribute="leading" id="oTC-lb-nbm"/>
+                            <constraint firstItem="BoU-Tl-2Q4" firstAttribute="top" secondItem="01Y-jy-LQc" secondAttribute="top" id="uZ0-ZL-Iqp"/>
+                            <constraint firstItem="9HJ-yF-NJz" firstAttribute="bottom" secondItem="01Y-jy-LQc" secondAttribute="bottom" id="zzb-wq-bzq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="01Y-jy-LQc"/>
+                    </view>
+                    <connections>
+                        <outlet property="toolbarTableView" destination="BoU-Tl-2Q4" id="awB-iU-AZj"/>
+                        <outlet property="uselessHalfView" destination="9HJ-yF-NJz" id="sI4-WM-6g8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7OW-Mx-1Xf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3292" y="302.6986506746627"/>
+        </scene>
         <!--Art Canvas-->
         <scene sceneID="tne-QT-ifu">
             <objects>

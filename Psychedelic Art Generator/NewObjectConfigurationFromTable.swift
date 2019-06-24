@@ -71,7 +71,7 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         //Issue with the copy method
         print("Worked")
         if (NewObjectConfigurationFromTable.additionalShape == nil) {
-            NewObjectConfigurationFromTable.additionalShape = ArtCanvas.currentShape!.copy() as! AbstractShapeView
+            NewObjectConfigurationFromTable.additionalShape = ArtCanvas.currentShape!.copy() as? AbstractShapeView
         }
         print("Worked past cast")
         

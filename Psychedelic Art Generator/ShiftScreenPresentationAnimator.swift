@@ -21,7 +21,7 @@ final class ShiftScreenPresentationAnimator: NSObject {
 
 extension ShiftScreenPresentationAnimator: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return 0.15
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
