@@ -102,6 +102,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8BA7696622C451DE009F99C9 /* Double Slider */ = {
+			isa = PBXGroup;
+			children = (
+				8BEFA34B22BAAAE300F68885 /* DoubleSliderThumbLayer.swift */,
+				8BEFA34D22BAAFBF00F68885 /* DoubleSliderTrackLayer.swift */,
+				8BEFA34922BAA33200F68885 /* DoubleSlider.swift */,
+			);
+			path = "Double Slider";
+			sourceTree = "<group>";
+		};
+		8BA7696722C4525D009F99C9 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */,
+				8BABCC8322C1350D005CAFF6 /* CustomToolbarHalfScreen.swift */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
+		8BA7696822C4529E009F99C9 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */,
+				8B250AA1228CDFC900EA3606 /* RectangleView.swift */,
+				8B250A9F228CD9AD00EA3606 /* CircleView.swift */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
+		8BA7696922C452C6009F99C9 /* Screen Transition */ = {
+			isa = PBXGroup;
+			children = (
+				8BB3FDA722AEB5E10000937F /* ShiftScreenPresentationController.swift */,
+				8BB3FDA522AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift */,
+				8B3B6C3C22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift */,
+			);
+			path = "Screen Transition";
+			sourceTree = "<group>";
+		};
+		8BA7696A22C452EE009F99C9 /* Art Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FEA2228B1218007166AD /* ArtCanvas.swift */,
+			);
+			path = "Art Canvas";
+			sourceTree = "<group>";
+		};
+		8BA7696B22C45316009F99C9 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE71228B046F007166AD /* AppDelegate.swift */,
+				8BD6FE73228B046F007166AD /* ViewController.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		8BA7696C22C4532A009F99C9 /* Color Wheel */ = {
+			isa = PBXGroup;
+			children = (
+				8B883D6B2295ADC60009D71C /* ColorView.swift */,
+			);
+			path = "Color Wheel";
+			sourceTree = "<group>";
+		};
+		8BA7696D22C45378009F99C9 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8BD6FE75228B046F007166AD /* Main.storyboard */,
+				8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		8BD6FE65228B046E007166AD = {
 			isa = PBXGroup;
 			children = (
@@ -125,24 +198,15 @@
 		8BD6FE70228B046F007166AD /* Psychedelic Art Generator */ = {
 			isa = PBXGroup;
 			children = (
-				8BD6FE71228B046F007166AD /* AppDelegate.swift */,
-				8BEFA34922BAA33200F68885 /* DoubleSlider.swift */,
-				8BEFA34D22BAAFBF00F68885 /* DoubleSliderTrackLayer.swift */,
-				8BEFA34B22BAAAE300F68885 /* DoubleSliderThumbLayer.swift */,
-				8BD6FE73228B046F007166AD /* ViewController.swift */,
-				8BD6FEA2228B1218007166AD /* ArtCanvas.swift */,
-				8BB3FDA522AEB22E0000937F /* ShiftScreenTransitioningDelegate.swift */,
-				8B3B6C3C22C11E5800FBC1B5 /* ShiftScreenPresentationAnimator.swift */,
-				8BB3FDA722AEB5E10000937F /* ShiftScreenPresentationController.swift */,
-				8B883D6B2295ADC60009D71C /* ColorView.swift */,
-				8B250A9F228CD9AD00EA3606 /* CircleView.swift */,
-				8B250AA1228CDFC900EA3606 /* RectangleView.swift */,
-				8BCB702D228F3F73005A98E2 /* AbstractShapeView.swift */,
-				8BABCC8322C1350D005CAFF6 /* CustomToolbarHalfScreen.swift */,
-				8BD6FE75228B046F007166AD /* Main.storyboard */,
-				8BD8D421228B34E700628AA8 /* NewObjectConfigurationFromTable.swift */,
+				8BA7696B22C45316009F99C9 /* General */,
+				8BA7696D22C45378009F99C9 /* Storyboards */,
+				8BA7696C22C4532A009F99C9 /* Color Wheel */,
+				8BA7696622C451DE009F99C9 /* Double Slider */,
+				8BA7696722C4525D009F99C9 /* Toolbar */,
+				8BA7696A22C452EE009F99C9 /* Art Canvas */,
+				8BA7696922C452C6009F99C9 /* Screen Transition */,
+				8BA7696822C4529E009F99C9 /* Shapes */,
 				8BD6FE7B228B0470007166AD /* Assets.xcassets */,
-				8BD6FE7D228B0470007166AD /* LaunchScreen.storyboard */,
 				8BD6FE80228B0470007166AD /* Info.plist */,
 				8BD6FE78228B046F007166AD /* Psychedelic_Art_Generator.xcdatamodeld */,
 			);
