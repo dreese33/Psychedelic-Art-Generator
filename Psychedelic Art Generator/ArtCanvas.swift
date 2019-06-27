@@ -13,6 +13,8 @@ import CoreGraphics
 //This is where all shapes, tesselations, and fractals will be drawn and configured
 class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
+    public static var hideStatusBar: Bool = false
+    
     //Possibly delete these variables, organize them later once completely integrated into the application
     @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var settingsButton: UIButton!
@@ -46,6 +48,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     
     //Tool selected, modified in Toolbar class
     public static var toolSelected: IndexPath = IndexPath(row: 0, section: 0)
+    public static var subcategorySelected: Int = -1
     
     //User touch on screen
     var touchEnabled: Bool = true
@@ -200,112 +203,119 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 //Tool options
                 switch ArtCanvas.toolSelected.row {
                 case 0:
-                    ArtCanvas.moveAndResize = 1
-                    
-                    print("vertical: \(collapseVerticalSlider.frame) horizontal: \(collapseHorizontalSlider.frame) touch: \(touch)")
-                    
-                    //Collapse sliders
-                    if (collapseHorizontalSlider.frame.contains(touch)) {
-                        if (!horizontalSliderCollapsed) {
-                            collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: .pi)
-                            UIView.animate(withDuration: 0.25, animations: {
-                                self.doubleSlider.frame.origin = CGPoint(x: self.doubleSlider.frame.origin.x, y: UIScreen.main.bounds.height)
-                                self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.collapseHorizontalSlider.frame.origin.x, y: self.imageView.bounds.height - 25)
-                            })
+                    switch ArtCanvas.subcategorySelected {
+                    case 0:
+                        ArtCanvas.moveAndResize = 0
+                        print("Circle")
+                        
+                        //Adds default circle to art canvas
+                        let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
+                        let rectView = CircleView(frame: randomRectVal, identifier: "Circle1")
+                        ArtCanvas.currentShape = rectView
+                        imageView.addSubview(rectView)
+                        
+                        if (showAdditionalOptions) {
                             
-                            horizontalSliderCollapsed = true
-                        } else {
-                            collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: 0)
-                            UIView.animate(withDuration: 0.25, animations: {
-                                self.doubleSlider.frame.origin = CGPoint(x: 0, y: self.view.bounds.height - 50)
-                                self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.doubleSlider.thumbWidth / 2, y: self.imageView.bounds.height - 75)
-                            })
-                            
-                            horizontalSliderCollapsed = false
+                            //Adds shape options view
+                            addShapeOptions(rectView: rectView)
                         }
-                    } else if (collapseVerticalSlider.frame.contains(touch)) {
-                        if (!verticalSliderCollapsed) {
-                            collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: .pi / 2)
-                            UIView.animate(withDuration: 0.25, animations: {
-                                self.doubleSliderVertical.frame.origin = CGPoint(x: self.imageView.bounds.width, y: self.doubleSliderVertical.frame.origin.y)
-                                self.collapseVerticalSlider.frame.origin = CGPoint(x: UIScreen.main.bounds.width - 25, y: self.collapseVerticalSlider.frame.origin.y)
-                            })
+                        
+                        hideSliders()
+                    case 1:
+                        ArtCanvas.moveAndResize = 0
+                        print("Rectangle")
+                        let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
+                        let rectView = RectangleView(frame: randomRectVal, identifier: "Rectangle1")
+                        ArtCanvas.currentShape = rectView
+                        imageView.addSubview(rectView)
+                        
+                        if (showAdditionalOptions) {
                             
-                            verticalSliderCollapsed = true
-                        } else {
-                            collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: -.pi / 2)
-                            UIView.animate(withDuration: 0.25, animations: {
-                                self.doubleSliderVertical.frame.origin = CGPoint(x: self.view.bounds.width - 50, y: 0)
-                                self.collapseVerticalSlider.frame.origin = CGPoint(x: self.imageView.bounds.width - 75, y: self.doubleSliderVertical.thumbWidth / 2)
-                            })
-                            
-                            verticalSliderCollapsed = false
+                            //Adds shape options view
+                            addShapeOptions(rectView: rectView)
                         }
-                    } else {
-                        //print("Else")
-                        if (ArtCanvas.currentShape != nil) {
-                            if (!ArtCanvas.currentShape!.frame.contains(touch)) {
-                                ArtCanvas.currentShape!.center = touch
+                        
+                        hideSliders()
+                    case 2:
+                        ArtCanvas.moveAndResize = 0
+                        print("Pentagon")
+                        hideSliders()
+                    case 3:
+                        print("Star")
+                        hideSliders()
+                    default:
+                        print("Something went wrong in shapes subcategories switch in ArtCanvas")
+                    }
+                case 1:
+                    switch ArtCanvas.subcategorySelected {
+                    case 0:
+                        ArtCanvas.moveAndResize = 1
+                        
+                        print("vertical: \(collapseVerticalSlider.frame) horizontal: \(collapseHorizontalSlider.frame) touch: \(touch)")
+                        
+                        //Collapse sliders
+                        if (collapseHorizontalSlider.frame.contains(touch)) {
+                            if (!horizontalSliderCollapsed) {
+                                collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: .pi)
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    self.doubleSlider.frame.origin = CGPoint(x: self.doubleSlider.frame.origin.x, y: UIScreen.main.bounds.height)
+                                    self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.collapseHorizontalSlider.frame.origin.x, y: self.imageView.bounds.height - 25)
+                                })
+                                
+                                horizontalSliderCollapsed = true
+                            } else {
+                                collapseHorizontalSlider.transform = CGAffineTransform(rotationAngle: 0)
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    self.doubleSlider.frame.origin = CGPoint(x: 0, y: self.view.bounds.height - 50)
+                                    self.collapseHorizontalSlider.frame.origin = CGPoint(x: self.doubleSlider.thumbWidth / 2, y: self.imageView.bounds.height - 75)
+                                })
+                                
+                                horizontalSliderCollapsed = false
+                            }
+                        } else if (collapseVerticalSlider.frame.contains(touch)) {
+                            if (!verticalSliderCollapsed) {
+                                collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: .pi / 2)
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    self.doubleSliderVertical.frame.origin = CGPoint(x: self.imageView.bounds.width, y: self.doubleSliderVertical.frame.origin.y)
+                                    self.collapseVerticalSlider.frame.origin = CGPoint(x: UIScreen.main.bounds.width - 25, y: self.collapseVerticalSlider.frame.origin.y)
+                                })
+                                
+                                verticalSliderCollapsed = true
+                            } else {
+                                collapseVerticalSlider.transform = CGAffineTransform(rotationAngle: -.pi / 2)
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    self.doubleSliderVertical.frame.origin = CGPoint(x: self.view.bounds.width - 50, y: 0)
+                                    self.collapseVerticalSlider.frame.origin = CGPoint(x: self.imageView.bounds.width - 75, y: self.doubleSliderVertical.thumbWidth / 2)
+                                })
+                                
+                                verticalSliderCollapsed = false
+                            }
+                        } else {
+                            //print("Else")
+                            if (ArtCanvas.currentShape != nil) {
+                                if (!ArtCanvas.currentShape!.frame.contains(touch)) {
+                                    ArtCanvas.currentShape!.center = touch
+                                }
+                            }
+                            
+                            if (ArtCanvas.currentShape != nil) {
+                                revealSliders()
                             }
                         }
-                    
+                    case 1:
+                        ArtCanvas.moveAndResize = 2
+                        hideSliders()
+                    case 2:
+                        ArtCanvas.moveAndResize = 3
+                        
                         if (ArtCanvas.currentShape != nil) {
                             revealSliders()
                         }
+                    default:
+                        print("Something went wrong in edit subcategories ArtCanvas")
                     }
-                case 1:
-                    ArtCanvas.moveAndResize = 2
-                    hideSliders()
-                case 2:
-                    ArtCanvas.moveAndResize = 3
-                    
-                    if (ArtCanvas.currentShape != nil) {
-                        revealSliders()
-                    }
-                case 3:
-                    ArtCanvas.moveAndResize = 0
-                    print("Circle")
-                    
-                    //Adds default circle to art canvas
-                    let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
-                    let rectView = CircleView(frame: randomRectVal, identifier: "Circle1")
-                    ArtCanvas.currentShape = rectView
-                    imageView.addSubview(rectView)
-                    
-                    if (showAdditionalOptions) {
-                        
-                        //Adds shape options view
-                        addShapeOptions(rectView: rectView)
-                    }
-                    
-                    hideSliders()
-                case 4:
-                    ArtCanvas.moveAndResize = 0
-                    print("Rectangle")
-                    let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
-                    let rectView = RectangleView(frame: randomRectVal, identifier: "Rectangle1")
-                    ArtCanvas.currentShape = rectView
-                    imageView.addSubview(rectView)
-                    
-                    if (showAdditionalOptions) {
-                        
-                        //Adds shape options view
-                        addShapeOptions(rectView: rectView)
-                    }
-                    
-                    hideSliders()
-                case 5:
-                    ArtCanvas.moveAndResize = 0
-                    print("Pentagon")
-                    
-                    hideSliders()
-                case 6:
-                    print("Star")
-                    
-                    hideSliders()
                 default:
                     print("Something went wrong")
-                    hideSliders()
                 }
             }
         }
@@ -404,19 +414,7 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
         
         //Specify anchor point
-        
-        if (identifier == "toolbar") {
-            viewController.preferredContentSize = CGSize(width: 74, height: UIScreen.main.bounds.height - 88)
-            
-            //Popover presentation style
-            shiftTransitioningDelegate = ShiftScreenTransitioningDelegate(from: self, to: viewController)
-            shiftTransitioningDelegate.direction = .left
-            viewController.modalPresentationStyle = .custom
-            viewController.transitioningDelegate = shiftTransitioningDelegate
-            
-            //Present popover
-            self.present(viewController, animated: true)
-        } else if (identifier == "customToolbarHalfScreen") {
+        if (identifier == "customToolbarHalfScreen") {
             //Custom presentation style
             shiftTransitioningDelegate = ShiftScreenTransitioningDelegate(from: self, to: viewController)
             shiftTransitioningDelegate.direction = .left
@@ -433,6 +431,10 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             //Popover presentation style
            // viewController.modalPresentationStyle = .popover
         }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return ArtCanvas.hideStatusBar
     }
     
     /*
@@ -600,8 +602,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         let horizontalThumbFactorWidth = Double(relativeThumbSizeHorizontal) * Double(0.5 - horizontalScreenPercentageWidth)
         let verticalThumbFactorHeight = Double(relativeThumbSizeVertical) * Double(0.5 - verticalScreenPercentageHeight)
         
-        //print("Horizontal: \(horizontalThumbFactor)   Vertical: \(verticalThumbFactor)")
-        
         doubleSlider.lowerValue = Double((ArtCanvas.currentShape!.frame.origin.x) / (doubleSlider.frame.width)) - horizontalThumbFactor
         doubleSlider.upperValue = Double((ArtCanvas.currentShape!.frame.origin.x + ArtCanvas.currentShape!.frame.width) / (doubleSlider.frame.width)) - horizontalThumbFactorWidth
         doubleSliderVertical.lowerValue = Double((ArtCanvas.currentShape!.frame.origin.y + 44 + doubleSlider.thumbWidth / 4 + UIApplication.shared.statusBarFrame.height) / doubleSliderVertical.frame.height) - verticalThumbFactor
@@ -612,7 +612,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             doubleSliderVertical.upperValue = Double((ArtCanvas.currentShape!.frame.origin.y + 44 + UIApplication.shared.statusBarFrame.height + ArtCanvas.currentShape!.frame.height + doubleSlider.thumbWidth / 4) / doubleSliderVertical.frame.height) - verticalThumbFactorHeight
         }
     }
-    
     
     func updateCurrentShapeSize(alignment: Alignment) {
         

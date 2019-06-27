@@ -27,10 +27,12 @@ final class ShiftScreenTransitioningDelegate: NSObject, UIViewControllerTransiti
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        ArtCanvas.hideStatusBar = false
         return ShiftScreenPresentationAnimator(direction: .left, isPresentation: false)
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        ArtCanvas.hideStatusBar = true
         return ShiftScreenPresentationAnimator(direction: .left, isPresentation: true)
     }
     

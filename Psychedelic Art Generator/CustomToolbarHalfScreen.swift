@@ -14,19 +14,30 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var uselessHalfView: UIView!
     
     //Subcategories for toolbar
-    public static var shapesSubviews: [UIImageView] = [UIImageView(image: UIImage(named: "Circle")!), UIImageView(image: UIImage(named: "Rectangle")!), UIImageView(image: UIImage(named: "Pentagon")!), UIImageView(image: UIImage(named: "Star")!)]
+    private let shapesSubviews: [UIImageView] = [UIImageView(image: UIImage(named: "Circle")!), UIImageView(image: UIImage(named: "Rectangle")!), UIImageView(image: UIImage(named: "Pentagon")!), UIImageView(image: UIImage(named: "Star")!)]
+    
+    private let editSubviews: [UIImageView] = [UIImageView(image: UIImage(named: "Move")!), UIImageView(image: UIImage(named: "ResizeSide")!), UIImageView(image: UIImage(named: "ResizeHorizontal")!)]
     
     //Tool arrays for tools and shape options
-    private final let toolArray: [UIImage] = [UIImage(named: "Move")!, UIImage(named: "ResizeSide")!, UIImage(named: "ResizeHorizontal")!, UIImage(named: "Circle")!, UIImage(named: "Rectangle")!, UIImage(named: "Pentagon")!, UIImage(named: "Star")!, UIImage(named: "Circle")!]
-    private final let moreOptionsToolArray: [String] = ["Color"]
+    /*
+    private final let toolArray: [UIImage] = [UIImage(named: "Move")!, UIImage(named: "ResizeSide")!, UIImage(named: "ResizeHorizontal")!, UIImage(named: "Circle")!, UIImage(named: "Rectangle")!, UIImage(named: "Pentagon")!, UIImage(named: "Star")!, UIImage(named: "Circle")!]*/
+    private let toolArray: [String] = ["Shapes", "Edit Shapes"]
     
-    var previousRowSelected = 0
-    var subcategoriesVisible = false
+    private let moreOptionsToolArray: [String] = ["Color"]
+    
+    var tableCellHeight: CGFloat = 0.0
+    
+    private var subcategoriesVisible = false
+    private var cellSelected = false
+    private var mostRecentToolSelected = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.clear
         self.uselessHalfView.backgroundColor = UIColor.clear
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(uselessviewTapped))
+        self.uselessHalfView.addGestureRecognizer(tap)
         
         self.toolbarTableView.translatesAutoresizingMaskIntoConstraints = false
         self.uselessHalfView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,18 +45,105 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
         self.toolbarTableView.delegate = self
         self.toolbarTableView.dataSource = self
         
-        addShapeSubviews()
+        //self.toolbarTableView.separatorStyle = .none
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            tableCellHeight = UIScreen.main.bounds.height / 20
+        } else {
+            tableCellHeight = UIScreen.main.bounds.height / 15
+        }
+        
+        addToolbarSubviews()
+        hideAllSubviews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         if (NewObjectConfigurationFromTable.newToolbarActivated) {
             self.toolbarTableView.selectRow(at: NewObjectConfigurationFromTable.toolSelected, animated: true, scrollPosition: .top)
         } else {
+            self.mostRecentToolSelected = ArtCanvas.toolSelected
             self.toolbarTableView.selectRow(at: ArtCanvas.toolSelected, animated: true, scrollPosition: .top)
+            self.subviewLogic(indexPath: ArtCanvas.toolSelected)
+            self.highlightAppropriateSubview()
+            self.cellSelected = true
         }
         
         super.viewDidAppear(animated)
+    }
+    
+    @objc func uselessviewTapped(_ sender: UITapGestureRecognizer) {
+        
+        let location = sender.location(in: uselessHalfView)
+        var index = 0
+        var dismissing = true
+        
+        switch mostRecentToolSelected.row {
+        case 0:
+            for imageSubview in shapesSubviews {
+                if imageSubview.frame.contains(location) {
+                    dismissing = false
+                    ArtCanvas.toolSelected = mostRecentToolSelected
+                    
+                    if (ArtCanvas.subcategorySelected != -1 && ArtCanvas.subcategorySelected < shapesSubviews.count) {
+                        self.shapesSubviews[ArtCanvas.subcategorySelected].backgroundColor = UIColor.white
+                    }
+                    
+                    UIView.animate(withDuration: 0.25, animations: {
+                        imageSubview.backgroundColor = UIColor.gray
+                    }, completion: { (finished: Bool) in
+                        ArtCanvas.subcategorySelected = index
+                        //self.dismiss(animated: true, completion: nil)
+                    })
+                    break
+                }
+                
+                index += 1
+            }
+        case 1:
+            for imageSubview in editSubviews {
+                if imageSubview.frame.contains(location) {
+                    dismissing = false
+                    ArtCanvas.toolSelected = mostRecentToolSelected
+                    
+                    if (ArtCanvas.subcategorySelected != -1 && ArtCanvas.subcategorySelected < editSubviews.count) {
+                        self.editSubviews[ArtCanvas.subcategorySelected].backgroundColor = UIColor.white
+                    }
+                    
+                    UIView.animate(withDuration: 0.25, animations: {
+                        imageSubview.backgroundColor = UIColor.gray
+                    }, completion: { (finished: Bool) in
+                        ArtCanvas.subcategorySelected = index
+                        //self.dismiss(animated: true, completion: nil)
+                    })
+                    break
+                }
+                
+                index += 1
+            }
+        default:
+            print("Something went wrong")
+        }
+        
+        if (dismissing) {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    //Highlights the selected subview
+    private func highlightAppropriateSubview() {
+        if (ArtCanvas.subcategorySelected != -1) {
+            switch ArtCanvas.toolSelected.row {
+            case 0:
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.shapesSubviews[ArtCanvas.subcategorySelected].backgroundColor = UIColor.gray
+                })
+            case 1:
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.editSubviews[ArtCanvas.subcategorySelected].backgroundColor = UIColor.gray
+                })
+            default:
+                print("Something went wrong")
+            }
+        }
     }
     
     //Table view functions
@@ -69,8 +167,7 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
             return cell!
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "toolCell")
-            cell!.imageView!.center = cell!.center
-            cell!.imageView!.image = toolArray[indexPath.row]
+            cell!.textLabel?.text = toolArray[indexPath.row]
             return cell!
         }
     }
@@ -80,7 +177,50 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
         if (NewObjectConfigurationFromTable.newToolbarActivated) {
             NewObjectConfigurationFromTable.toolSelected = indexPath
         } else {
-            ArtCanvas.toolSelected = indexPath
+            /*
+            if (ArtCanvas.toolSelected.row != indexPath.row) {
+                ArtCanvas.subcategorySelected = -1
+            }*/
+            
+            if (cellSelected) {
+                if (mostRecentToolSelected.row == indexPath.row) {
+                    cellSelected = false
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }
+            } else {
+                cellSelected = true
+                highlightAppropriateSubview()
+            }
+            
+            subviewLogic(indexPath: indexPath)
+            mostRecentToolSelected = indexPath
+        }
+    }
+    
+    //Ensures that subviews are placed properly on screen
+    private func subviewLogic(indexPath: IndexPath) {
+        
+        if (subcategoriesVisible) {
+            hideAllSubviews()
+        }
+        
+        switch indexPath.row {
+        case 0:
+            if (!subcategoriesVisible || indexPath.row != mostRecentToolSelected.row) {
+                subcategoriesVisible = true
+                self.revealShapeSubviews()
+            } else {
+                subcategoriesVisible = false
+            }
+        case 1:
+            if (!subcategoriesVisible || indexPath.row != mostRecentToolSelected.row) {
+                subcategoriesVisible = true
+                self.revealEditSubviews()
+            } else {
+                subcategoriesVisible = false
+            }
+        default:
+            print("Something wrong")
         }
     }
     
@@ -89,23 +229,59 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
         return .none
     }
     
-    private func addShapeSubviews() {
-        var currentX = UIScreen.main.bounds.width / 3
-        for imageViewShape in CustomToolbarHalfScreen.shapesSubviews {
-            imageViewShape.frame = CGRect(x: currentX, y: 100, width: 50, height: 50)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableCellHeight
+    }
+    
+    private func addToolbarSubviews() {
+        var currentX: CGFloat = 0
+        var currentY: CGFloat = 0
+        for imageViewShape in shapesSubviews {
+            imageViewShape.frame = CGRect(x: currentX, y: currentY, width: tableCellHeight, height: tableCellHeight)
             imageViewShape.layer.borderWidth = 1
             imageViewShape.backgroundColor = UIColor.white
-            //uselessHalfView.addSubview(imageViewShape)
-            self.view.addSubview(imageViewShape)
-            currentX += 50
+            uselessHalfView.addSubview(imageViewShape)
+            currentX += tableCellHeight
+        }
+        
+        currentX = 0
+        currentY += tableCellHeight
+        
+        for imageViewShape in editSubviews {
+            imageViewShape.frame = CGRect(x: currentX, y: currentY, width: tableCellHeight, height: tableCellHeight)
+            imageViewShape.layer.borderWidth = 1
+            imageViewShape.backgroundColor = UIColor.white
+            uselessHalfView.addSubview(imageViewShape)
+            currentX += tableCellHeight
         }
     }
     
-    public static func hideShapeSubviews() {
-        
+    private func hideShapeSubviews() {
+        for imageViewShape in shapesSubviews {
+            imageViewShape.isHidden = true
+        }
     }
     
-    public static func revealShapeSubviews() {
-        
+    private func revealShapeSubviews() {
+        for imageViewShape in shapesSubviews {
+            imageViewShape.isHidden = false
+        }
+    }
+    
+    private func hideEditSubviews() {
+        for imageViewSubview in editSubviews {
+            imageViewSubview.isHidden = true
+        }
+    }
+    
+    private func revealEditSubviews() {
+        for imageViewSubview in editSubviews {
+            imageViewSubview.isHidden = false
+        }
+    }
+    
+    private func hideAllSubviews() {
+        hideShapeSubviews()
+        hideEditSubviews()
     }
 }
