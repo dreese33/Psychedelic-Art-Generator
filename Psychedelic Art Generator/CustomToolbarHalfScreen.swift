@@ -18,11 +18,7 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
     
     private let editSubviews: [UIImageView] = [UIImageView(image: UIImage(named: "Move")!), UIImageView(image: UIImage(named: "ResizeSide")!), UIImageView(image: UIImage(named: "ResizeHorizontal")!)]
     
-    //Tool arrays for tools and shape options
-    /*
-    private final let toolArray: [UIImage] = [UIImage(named: "Move")!, UIImage(named: "ResizeSide")!, UIImage(named: "ResizeHorizontal")!, UIImage(named: "Circle")!, UIImage(named: "Rectangle")!, UIImage(named: "Pentagon")!, UIImage(named: "Star")!, UIImage(named: "Circle")!]*/
     private let toolArray: [String] = ["Shapes", "Edit Shapes"]
-    
     private let moreOptionsToolArray: [String] = ["Color"]
     
     var tableCellHeight: CGFloat = 0.0
@@ -45,7 +41,6 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
         self.toolbarTableView.delegate = self
         self.toolbarTableView.dataSource = self
         
-        //self.toolbarTableView.separatorStyle = .none
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             tableCellHeight = UIScreen.main.bounds.height / 20
         } else {
@@ -91,7 +86,6 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
                         imageSubview.backgroundColor = UIColor.gray
                     }, completion: { (finished: Bool) in
                         ArtCanvas.subcategorySelected = index
-                        //self.dismiss(animated: true, completion: nil)
                     })
                     break
                 }
@@ -112,7 +106,6 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
                         imageSubview.backgroundColor = UIColor.gray
                     }, completion: { (finished: Bool) in
                         ArtCanvas.subcategorySelected = index
-                        //self.dismiss(animated: true, completion: nil)
                     })
                     break
                 }
@@ -177,11 +170,6 @@ class CustomToolbarHalfScreen: UIViewController, UITableViewDelegate, UITableVie
         if (NewObjectConfigurationFromTable.newToolbarActivated) {
             NewObjectConfigurationFromTable.toolSelected = indexPath
         } else {
-            /*
-            if (ArtCanvas.toolSelected.row != indexPath.row) {
-                ArtCanvas.subcategorySelected = -1
-            }*/
-            
             if (cellSelected) {
                 if (mostRecentToolSelected.row == indexPath.row) {
                     cellSelected = false

@@ -26,13 +26,6 @@ class RectangleView: AbstractShapeView, NSCopying {
         // Get the Graphics Context
         if let context = UIGraphicsGetCurrentContext() {
             
-            // Set the circle outerline-width
-            //context.setLineWidth(5.0)
-            
-            // Set the circle outerline-colour
-            //context.setStrokeColor(UIColor.red.cgColor)
-            // UIColor.red.set()
-            
             if (self.colorNeedsUpdated) {
                 context.setFillColor(self.color!.cgColor)
                 context.fill(rect)

@@ -47,14 +47,12 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         ColorView.arrowAdded = false
         ColorView.initialPositionSet = false
         
-        //print("Dismissed")
         ColorSaturationAndBrightnessSelector.selectionCircleAdded = false
         ColorView.currentArrowPositionAngle = 0
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Loaded")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,11 +67,9 @@ class NewObjectConfigurationFromTable: UINavigationController, UIPopoverPresenta
         shapeView = UIImageView(frame: CGRect(x: xPos, y: yPos, width: shapeWidth, height: shapeWidth))
         
         //Issue with the copy method
-        print("Worked")
         if (NewObjectConfigurationFromTable.additionalShape == nil) {
             NewObjectConfigurationFromTable.additionalShape = ArtCanvas.currentShape!.copy() as? AbstractShapeView
         }
-        print("Worked past cast")
         
         let addShapeXY = shapeView!.bounds.width / 6
         let heightWidthFactor = NewObjectConfigurationFromTable.additionalShape!.bounds.height / NewObjectConfigurationFromTable.additionalShape!.bounds.width

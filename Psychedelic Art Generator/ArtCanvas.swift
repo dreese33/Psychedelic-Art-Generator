@@ -78,14 +78,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // let collapseImage = UIImage(named: "ColorWheelArrow")
-        
-       // imageViewVertical = UIImageView(image: collapseImage)
-        //imageViewHorizontal = UIImageView(image: collapseImage)
-        
-        //self.view.addSubview(imageViewVertical!)
-        //self.view.addSubview(imageViewHorizontal!)
-        
         //Add custom double slider
         doubleSlider.isHidden = true
         self.view.addSubview(doubleSlider)
@@ -95,11 +87,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
         doubleSliderVertical.isHidden = true
         self.view.addSubview(doubleSliderVertical)
         doubleSliderVertical.addTarget(self, action: #selector(doubleSliderValueChanged(doubleSlider:)), for: .valueChanged)
-        //print("height: \(UIScreen.main.bounds.height) width: \(UIScreen.main.bounds.width)")
     }
     
     @objc func doubleSliderValueChanged(doubleSlider: DoubleSlider) {
-        print("Double slider value changed: (\(doubleSlider.lowerValue) \(doubleSlider.upperValue))")
         let relativeThumbSize: Double!
         if (doubleSlider.alignment == .horizontal) {
             relativeThumbSize = Double(doubleSlider.thumbWidth / UIScreen.main.bounds.width)
@@ -183,18 +173,18 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 if (ArtCanvas.currentShape != nil) {
                     if (touch.x > ArtCanvas.currentShape!.center.x) {
                         if (touch.y > ArtCanvas.currentShape!.center.y) {
-                            print("Bottom right")
+                            //Bottom right
                             self.sidePressed = 3
                         } else {
-                            print("Top right")
+                            //Top right
                             self.sidePressed = 4
                         }
                     } else {
                         if (touch.y > ArtCanvas.currentShape!.center.y) {
-                            print("Bottom left")
+                            //Bottom left
                             self.sidePressed = 2
                         } else {
-                            print("Top left")
+                            //Top left
                             self.sidePressed = 1
                         }
                     }
@@ -205,9 +195,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                 case 0:
                     switch ArtCanvas.subcategorySelected {
                     case 0:
+                        //Circle
                         ArtCanvas.moveAndResize = 0
-                        print("Circle")
-                        
+            
                         //Adds default circle to art canvas
                         let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                         let rectView = CircleView(frame: randomRectVal, identifier: "Circle1")
@@ -222,8 +212,9 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         
                         hideSliders()
                     case 1:
+                        //Rectangle
                         ArtCanvas.moveAndResize = 0
-                        print("Rectangle")
+                        
                         let randomRectVal = CGRect(x: touch.x - 50, y: touch.y - 50, width: 100, height: 100)
                         let rectView = RectangleView(frame: randomRectVal, identifier: "Rectangle1")
                         ArtCanvas.currentShape = rectView
@@ -237,11 +228,11 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         
                         hideSliders()
                     case 2:
+                        //Polygon
                         ArtCanvas.moveAndResize = 0
-                        print("Pentagon")
                         hideSliders()
                     case 3:
-                        print("Star")
+                        //Star
                         hideSliders()
                     default:
                         print("Something went wrong in shapes subcategories switch in ArtCanvas")
@@ -250,8 +241,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                     switch ArtCanvas.subcategorySelected {
                     case 0:
                         ArtCanvas.moveAndResize = 1
-                        
-                        print("vertical: \(collapseVerticalSlider.frame) horizontal: \(collapseHorizontalSlider.frame) touch: \(touch)")
                         
                         //Collapse sliders
                         if (collapseHorizontalSlider.frame.contains(touch)) {
@@ -291,7 +280,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                                 verticalSliderCollapsed = false
                             }
                         } else {
-                            //print("Else")
                             if (ArtCanvas.currentShape != nil) {
                                 if (!ArtCanvas.currentShape!.frame.contains(touch)) {
                                     ArtCanvas.currentShape!.center = touch
@@ -341,8 +329,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
                         updateSliders()
                         
                     case 2:
-                        print("Resize Sideways")
-                        
                         self.resettableTouchLocation = touch
                         if (self.timesTouchesMoved == 4) {
                             
@@ -428,8 +414,6 @@ class ArtCanvas: UIViewController, UIPopoverPresentationControllerDelegate {
             viewController.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.present(viewController, animated: false)
-            //Popover presentation style
-           // viewController.modalPresentationStyle = .popover
         }
     }
     

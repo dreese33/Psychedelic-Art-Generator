@@ -117,7 +117,6 @@ class DoubleSlider: UIControl {
         layer.addSublayer(upperThumbLayer)
         
         if (alignment == nil) {
-            print("Nil")
             alignment = .horizontal
         }
     }

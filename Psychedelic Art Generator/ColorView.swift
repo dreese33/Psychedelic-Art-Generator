@@ -84,7 +84,6 @@ class ColorView: UIView {
             
             if (!ColorView.initialPositionSet) {
                 ColorView.initialPositionSet = true
-                print("Called")
                 self.setColorPosition()
             }
         }
@@ -134,9 +133,7 @@ class ColorView: UIView {
     //Touch functions to animate along the UIBezierPath
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first?.location(in: self) {
-            print(self.frame)
             if (ColorView.ellipsePath!.contains(touch) && !ColorView.ellipsePathInner!.contains(touch)) {
-           // if (self.frame.contains(touch) && !ColorView.ellipsePathInner!.contains(touch)) {
                 self.rotateArrow(touch: touch)
                 innerSquare!.draw(innerSquare!.frame)
                 innerSquare!.setNeedsDisplay()
@@ -151,7 +148,6 @@ class ColorView: UIView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first?.location(in: self) {
             if (ColorView.ellipsePath!.contains(touch) && !ColorView.ellipsePathInner!.contains(touch)) {
-            //if (self.frame.contains(touch) && !ColorView.ellipsePathInner!.contains(touch)) {
                 self.rotateArrow(touch: touch)
                 innerSquare!.draw(innerSquare!.frame)
                 innerSquare!.setNeedsDisplay()
@@ -166,7 +162,6 @@ class ColorView: UIView {
     //Arrow rotation functionality
     func rotateArrow(touch: CGPoint) {
         let distanceToCenter = sqrt(pow(touch.x - self.circleCenterPoint!.x, 2) + pow(touch.y - self.circleCenterPoint!.y, 2))
-        print(distanceToCenter)
         
         let endDistance = self.ellipsePathRadius! - distanceToCenter
         let centerLineSlope = (touch.y - self.circleCenterPoint!.y) / (touch.x - self.circleCenterPoint!.x)
